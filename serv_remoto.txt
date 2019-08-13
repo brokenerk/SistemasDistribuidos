@@ -1,0 +1,19 @@
+10.100.75.12
+
+putty.exe
+
+login: alumno
+pass: escom2019
+
+----------------------
+
+ftp dir_IP
+login: alumno
+pass: escom2019
+
+get archivo
+put archivo
+
+Para transferir archivos de no texto hay que setear la transferencia a binario con:
+
+set bin / binary / bin
