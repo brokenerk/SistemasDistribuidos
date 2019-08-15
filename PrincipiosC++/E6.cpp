@@ -1,6 +1,5 @@
 #include <iostream>
 using namespace std;
-const double PI = 3.1415926;
 
 int main(){
 	double precio = 78.7;

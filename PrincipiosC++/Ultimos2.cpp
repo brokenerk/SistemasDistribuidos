@@ -1,8 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int main()
-{
+int main() {
     double segundos = 0.0;
     double gravedad = 9.81;
     cout << "Escribe el tiempo." << endl;
