@@ -8,14 +8,15 @@ int main()
     a.muestraFecha();
 
     b.muestraFecha();
-    if(b.leapyr())
-        cout << "Es bisiesto" << endl;
-    else
-        cout << "No es bisiesto" << endl;
-
     c.muestraFecha();
-    if(c.leapyr())
-        cout << "Es bisiesto" << endl;
-    else
-        cout << "No es bisiesto" << endl;
+
+    int cont = 0;
+    for(int i = 1; i <= 2019; i++){
+        Fecha t(1,1,i);
+        if(t.leapyr()){
+            cont++;       
+        }
+    }
+
+    cout << cont << endl;
 }
