@@ -14,6 +14,7 @@ class Fecha
 	    Fecha(int = 3, int = 4, int = 2014);
 	    void inicializaFecha(int, int, int);
 	    void muestraFecha();
+	    char bytes[10000];
 };
 
 Fecha::Fecha(int dd, int mm, int aaaa)
@@ -141,7 +142,7 @@ int masVieja3(Fecha *fecha1, Fecha *fecha2)
 int main()
 {
 	srand (time(NULL));
-    for(int i = 0; i <10000000; i++){
+    for(int i = 0; i <100000; i++){
     	int anio1 = rand() % 40000000 + 1;
     	int mes1 = rand() % 12 + 1;
     	int dia1 = rand() % 30 + 1;
@@ -151,7 +152,8 @@ int main()
     	int dia2 = rand() % 30 + 1;
 
 
-    	Fecha a(dia1, mes1, anio1), b(dia2, mes2, anio2); 
+    	Fecha a(dia1, mes1, anio1), b(dia2, mes2, anio2);
+
     	//masVieja(a, b);
     	masVieja3(&a, &b);
     }
