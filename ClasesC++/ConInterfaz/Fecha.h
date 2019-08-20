@@ -1,7 +1,7 @@
 #ifndef FECHA_H_
 #define FECHA_H_
-class Fecha
-{
+
+class Fecha {
 	private:
 		int dia;
 		int mes;

@@ -1,20 +1,25 @@
-#include "programa3.h"
+#include "NumerosRand.h"
 #include <unistd.h>
 #include <iostream>
 using namespace std;
 
-NumerosRand::NumerosRand(unsigned int num){
+NumerosRand::NumerosRand(unsigned int num) {
     numeroElementos = num;
     arreglo = new int[numeroElementos];
 }
-NumerosRand::~NumerosRand(){
+
+NumerosRand::~NumerosRand() {
     delete[] arreglo;
 }
-void NumerosRand::inicializaNumerosRand(){
-    unsigned int i;for(i = 0; i < numeroElementos; i++)arreglo[i] = rand();
+
+void NumerosRand::inicializaNumerosRand() {
+    unsigned int i;
+    for(i = 0; i < numeroElementos; i++)
+        arreglo[i] = rand();
     return;
 }
-void pruebaClase(){
+
+void pruebaClase() {
     unsigned int capacidad;
     cout << "Numero de enteros aleatorios en el arreglo : ";
     cin >> capacidad;
@@ -22,9 +27,10 @@ void pruebaClase(){
     tmp.inicializaNumerosRand();
     sleep(7); 
 }
-int main(){
+
+int main() {
     char res;
-    do{
+    do {
         pruebaClase();
         pruebaClase();
         cout << "Probar de nuevo? (s/n) ";

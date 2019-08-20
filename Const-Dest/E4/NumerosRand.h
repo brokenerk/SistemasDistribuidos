@@ -1,7 +1,7 @@
-#ifndef PROGRAMA3_H_
-#define PROGRAMA3_H_
+#ifndef PROGRAMA4_H_
+#define PROGRAMA4_H_
 
-class NumerosRand{
+class NumerosRand {
     private:
         int *arreglo;
         unsigned int numeroElementos;
