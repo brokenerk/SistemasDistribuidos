@@ -35,9 +35,9 @@ void Fecha::muestraFecha()
 {
     cout << "La fecha es(dia-mes-año): " << dia << "-" << mes << "-" << anio << endl;
     return;
-}
+}	
 
-int masVieja(Fecha fecha1, Fecha fecha2)
+int masVieja1(Fecha &fecha1, Fecha &fecha2)
 {
 	if(fecha1.anio > fecha2.anio){
 		return 1;
@@ -85,8 +85,7 @@ int main()
 
 
     	Fecha a(dia1, mes1, anio1), b(dia2, mes2, anio2); 
-    	masVieja(a, b);
-    	
-   	}
+    	masVieja1(a, b);
+    }
     
 }
