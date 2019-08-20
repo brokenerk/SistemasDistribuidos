@@ -17,7 +17,7 @@ public:
     bool leapyr();
 };
 
-Fecha::Fecha(int dd, int mm, int aaaa)
+Fecha::Fecha(int dd, int mm, int aaaa) : dia(dd), mes(mm), anio(aaaa)
 {
     if (dd < 1 || dd > 31)
     {
@@ -34,9 +34,6 @@ Fecha::Fecha(int dd, int mm, int aaaa)
         cout << "Anio erroneo" << endl;
         exit(0);
     }
-    mes = mm;
-    dia = dd;
-    anio = aaaa;
 }
 
 void Fecha::inicializaFecha(int dd, int mm, int aaaa)
