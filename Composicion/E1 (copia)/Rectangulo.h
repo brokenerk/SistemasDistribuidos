@@ -11,5 +11,6 @@ class Rectangulo {
 		void imprimeEsq();
 		Coordenada obtieneSupIzq();
 		Coordenada obtieneInfDer();
+		void obtieneArea(double x,double y);
 };
 #endif
