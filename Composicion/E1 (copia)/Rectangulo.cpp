@@ -23,3 +23,6 @@ Coordenada Rectangulo::obtieneSupIzq() {
 Coordenada Rectangulo::obtieneInfDer() {
 	return inferiorDer;
 }
+double Rectangulo::obtieneArea(double h, double t){
+	return h*t;
+}
