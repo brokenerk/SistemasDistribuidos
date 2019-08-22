@@ -7,7 +7,10 @@ using namespace std;
 Rectangulo::Rectangulo() : superiorIzq(0,0), inferiorDer(0,0) { }
 
 Rectangulo::Rectangulo(double xSupIzq, double ySupIzq, double xInfDer, double yInfDer):superiorIzq(xSupIzq, ySupIzq), inferiorDer(xInfDer, yInfDer) { }
-Rectangulo::Rectangulo(Coordenada,Coordenada){}
+Rectangulo::Rectangulo(Coordenada c1,Coordenada c2){
+	superiorIzq = c1;
+	inferiorDer = c2;
+}
 
 void Rectangulo::imprimeEsq()
 {
