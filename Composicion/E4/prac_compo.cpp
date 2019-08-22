@@ -5,8 +5,7 @@ using namespace std;
 
 int main()
 {
-	Rectangulo rectangulo1(Coordenada(1, 0), Coordenada(1, 45));
-
+	Rectangulo rectangulo1(Coordenada(3.61, 56.31), Coordenada(5.1, 11.31));
 	double ancho, alto;
 	cout << "Calculando el área de un rectángulo dadas sus coordenadas en un plano cartesiano:\n";
 	rectangulo1.imprimeEsq();
