@@ -8,8 +8,10 @@ class Rectangulo {
 	public: 
 		Rectangulo();
 		Rectangulo(double xSupIzq, double ySupIzq, double xInfDer, double yInfDer);
+		Rectangulo(Coordenada c1,Coordenada c2);
 		void imprimeEsq();
 		Coordenada obtieneSupIzq();
 		Coordenada obtieneInfDer();
+		double obtieneArea(double x,double y);
 };
 #endif
