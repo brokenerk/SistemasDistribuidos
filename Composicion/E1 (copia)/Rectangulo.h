@@ -8,6 +8,7 @@ class Rectangulo {
 	public: 
 		Rectangulo();
 		Rectangulo(double xSupIzq, double ySupIzq, double xInfDer, double yInfDer);
+		Rectangulo(Coordena,Coordenada);
 		void imprimeEsq();
 		Coordenada obtieneSupIzq();
 		Coordenada obtieneInfDer();
