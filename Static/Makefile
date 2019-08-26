@@ -1,5 +1,7 @@
-run: E2.cpp PoligonoIrreg.o
-	g++ Coordenada.o PoligonoIrreg.o E2.cpp -o E2
+run: E2.cpp E3-1.cpp E3-2.cpp PoligonoIrreg.o
+	g++ E2.cpp Coordenada.o PoligonoIrreg.o  -o E2
+	g++ E3-1.cpp Coordenada.o PoligonoIrreg.o -o E3-1
+	g++ E3-2.cpp Coordenada.o PoligonoIrreg.o -o E3-2
 
 PoligonoIrreg.o: PoligonoIrreg.cpp Coordenada.o PoligonoIrreg.h
 	g++ PoligonoIrreg.cpp -c
