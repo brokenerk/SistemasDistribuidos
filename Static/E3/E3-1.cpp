@@ -1,10 +1,8 @@
 #include "Coordenada.h"
 #include "PoligonoIrreg.h"
-#include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <time.h> 
-
 using namespace std;
 
 static int numVertices = 0;
@@ -26,10 +24,10 @@ int main() {
 			p.anadeVertice(Coordenada(0, 1));
 			numVertices++;
 		}
-		v.push_back(p);
-		
+		v.push_back(p);	
 	}
-	cout << "Vertices creados: " << getNumVertices() << endl;
 
+	cout << n << " objetos creados" << endl;
+	cout << "Vertices creados: " << getNumVertices() << endl;
 	return 0;
 }

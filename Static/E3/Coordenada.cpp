@@ -1,12 +1,10 @@
 #include "Coordenada.h"
 #include <iostream>
-#include <stdlib.h>
 using namespace std;
 
 Coordenada::Coordenada(double xx, double yy) : x(xx), y(yy) { }
 
-double Coordenada::obtenerX()
-{
+double Coordenada::obtenerX() {
 	return x;
 }
 

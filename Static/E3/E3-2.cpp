@@ -30,7 +30,8 @@ int main() {
 		v[i] = p;
 		
 	}
-	cout << "Vertices creados: " << getNumVertices() << endl;
 
+	cout << n << " objetos creados" << endl;
+	cout << "Vertices creados: " << getNumVertices() << endl;
 	return 0;
 }
