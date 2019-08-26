@@ -3,12 +3,6 @@
 #include "PoligonoIrreg.h"
 using namespace std;
 
-int PoligonoIrreg::numVertices = 0;
-
-int PoligonoIrreg::getNumVertices(){
-	return numVertices;
-}
-
 PoligonoIrreg::PoligonoIrreg() {}
 
 void PoligonoIrreg::imprimeVertices()
@@ -22,7 +16,6 @@ void PoligonoIrreg::imprimeVertices()
 void PoligonoIrreg::anadeVertice(Coordenada coord)
 {
     vertices.push_back(coord);
-    numVertices++;
 }
 
 
