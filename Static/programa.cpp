@@ -56,6 +56,5 @@ int main()
     cout << "Se ha mandado llamar muestraFecha() " << b.getVecesMuestF() << " veces\n";
     c.muestraFecha();
     cout << "Se ha mandado llamar muestraFecha() " << c.getVecesMuestF() << " veces\n";
-
     return 0;
 }
