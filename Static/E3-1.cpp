@@ -12,7 +12,8 @@ static int getNumVertices(){
 }
 
 int main() {
-	srand(time(NULL));
+	//srand(time(NULL));
+	cout << "Usando push_back" << endl;
 	vector<PoligonoIrreg> v;
 	int n = 2000;
 	int m = 3000;
@@ -21,7 +22,7 @@ int main() {
 	for(int i = 0; i < n; i++) {
 		PoligonoIrreg p;
 		for(int j = 0; j < vertices; j++) {
-			p.anadeVertice(Coordenada(0, 1));
+			p.anadeVertice(Coordenada(i, j));
 			numVertices++;
 		}
 		v.push_back(p);	

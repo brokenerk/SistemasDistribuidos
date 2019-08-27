@@ -14,3 +14,11 @@ void PoligonoIrreg::imprimeVertices() {
 void PoligonoIrreg::anadeVertice(Coordenada coord) {
     vertices.push_back(coord);
 }
+
+void PoligonoIrreg::reservarVertices(int tam) {
+    vertices.reserve(tam);
+}
+
+void PoligonoIrreg::anadeVerticeSinPush(Coordenada coord, int i) {
+    vertices[i] = coord;
+}

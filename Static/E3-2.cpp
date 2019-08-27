@@ -14,17 +14,20 @@ static int getNumVertices(){
 }
 
 int main() {
-	srand(time(NULL));
+	//srand(time(NULL));
+	cout << "Sin usar push_back" << endl;
 	vector<PoligonoIrreg> v;
 	int n = 2000;
 	int m = 3000;
 	int vertices = rand() % m + 1;
 	v.reserve(n);
 
+
 	for(int i = 0; i < n; i++) {
 		PoligonoIrreg p;
+		p.reservarVertices(vertices);
 		for(int j = 0; j < vertices; j++) {
-			p.anadeVertice(Coordenada(0, 1));
+			p.anadeVerticeSinPush(Coordenada(i, j), i);
 			numVertices++;
 		}
 		v[i] = p;

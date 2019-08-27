@@ -10,6 +10,8 @@ class PoligonoIrreg {
 	public:
 	    void imprimeVertices();
 	    void anadeVertice(Coordenada coord);
+	    void reservarVertices(int tam);
+	    void anadeVerticeSinPush(Coordenada coord, int i);
 	    PoligonoIrreg();
 };
 #endif
