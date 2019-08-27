@@ -21,7 +21,7 @@ int Fecha::vecesMuestF = 0;
 
 int Fecha::getVecesMuestF()
 {
-	cout << dia << mes << anio << endl;
+	//cout << dia << mes << anio << endl;
     return vecesMuestF;
 }
 

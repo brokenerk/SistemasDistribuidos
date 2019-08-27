@@ -20,7 +20,7 @@ int main() {
 	int n = 2000;
 	int m = 3000;
 	int vertices = rand() % m + 1;
-	v.reserve(n);
+	v.reserve(m);
 
 
 	for(int i = 0; i < n; i++) {
@@ -31,7 +31,6 @@ int main() {
 			numVertices++;
 		}
 		v[i] = p;
-		
 	}
 
 	cout << n << " objetos creados" << endl;
