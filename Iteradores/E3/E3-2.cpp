@@ -1,39 +1,36 @@
 #include "Coordenada.h"
 #include "PoligonoIrreg.h"
 #include <cstdlib>
-#include <iostream>
 #include <vector>
 #include <time.h> 
+#include <iostream>
 
 using namespace std;
 
-static int numVertices = 0;
 
-static int getNumVertices(){
-	return numVertices;
-}
 
 int main() {
-	//srand(time(NULL));
-	cout << "Sin usar push_back" << endl;
-	vector<PoligonoIrreg> v;
-	int n = 2000;
-	int m = 3000;
-	int vertices = rand() % m + 1;
-	v.reserve(m);
+	srand(time(NULL));
+	//cout << "Sin usar push_back" << endl;
+	int m=2000;
+	PoligonoIrreg pIn;
+	int vertices = rand() % m + 50;
+	pIn.reservarVertices(vertices);
 
-
-	for(int i = 0; i < n; i++) {
-		PoligonoIrreg p;
-		p.reservarVertices(vertices);
 		for(int j = 0; j < vertices; j++) {
-			p.anadeVerticeSinPush(Coordenada(i, j), i);
-			numVertices++;
+			float x =(float)rand()/RAND_MAX ;
+			x=-100.0 +x *(100+100); 
+			
+			float y =(float)rand()/RAND_MAX ;
+			y=-100.0 +y *(100+100); 
+			
+			
+			pIn.anadeVertice(Coordenada(x, y));
+			
 		}
-		v[i] = p;
-	}
+pIn.imprimeVertices();
+	
+	
 
-	cout << n << " objetos creados" << endl;
-	cout << "Vertices creados: " << getNumVertices() << endl;
 	return 0;
 }
