@@ -2,7 +2,6 @@
 #include <time.h>
 #include <string>
 using namespace std;
-int veces = 0;
 
 string randomString() {
 	string alfabeto("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -16,13 +15,16 @@ string randomString() {
 	return palabra + " ";
 }
 
-void search(string cad, string pat, size_t pos) {
-	size_t nuevaPos = cad.find(pat, pos);
+int search(string cad, string pat) {
+	int veces = 0;
+	size_t pos = cad.find(pat);
 
-	if(nuevaPos != string::npos){
+	while(pos != string::npos) {
+		pos = cad.find(pat, pos + 1);
 		veces++;
-		search(cad, pat, nuevaPos + 1);
 	}
+
+	return veces;
 }
 
 int main() {
@@ -39,7 +41,6 @@ int main() {
     cout << "Cadenota: " << cadenota << endl;
 
     string sub("IPN");
-    search(cadenota, sub, 0);
-    cout << "Subcadena '" << sub << "'' encontrada: " << veces << " veces" << endl;
+    cout << "Subcadena '" << sub << "'' encontrada: " << search(cadenota, sub) << " veces" << endl;
     return 0;
 }
