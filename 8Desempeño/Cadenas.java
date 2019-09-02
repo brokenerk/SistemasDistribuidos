@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author marcus
  */
-public class Prueba_desempeño_cadenas {
+public class Cadenas {
 
     public static void main(String[] args) {
     Scanner S = new Scanner(System.in);

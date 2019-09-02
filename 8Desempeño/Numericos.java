@@ -9,7 +9,7 @@
  *
  * @author marcus
  */
-public class Calculos_numericos {
+public class Numericos {
     public static void main(String[] args) {
         double i=0, seno,coseno,tangente,logaritmo,raiz=0;
        
