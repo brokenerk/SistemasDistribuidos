@@ -1,6 +1,7 @@
 #include <iostream>
 #include <time.h>
 #include <string.h>
+#include <stdlib.h>
 using namespace std;
 
 char* randomString() {
@@ -44,16 +45,16 @@ int main() {
     char* cadenota = NULL;
 
     for (int i = 0; i < n; i++) {
-    	cadenota = (char*)realloc(cadenota, i * 4 + 4);
+    	cadenota = (char*)realloc(cadenota, (i + 1) * 4);
     	char* a = randomString();
-		strcat(cadenota, a);
+		memcpy(cadenota + 4 * i, a, 4);
     }
 
-    cout << "Cadenota: ";
+    /*cout << "Cadenota: ";
     for(int i = 0; i < strlen(cadenota); i++) {
     	cout << cadenota[i];
     }
-    cout << endl;
+    cout << endl;*/
 
     char sub[] = "IPN";
     cout << "Subcadena '" << sub << "'' encontrada: " << search(cadenota, sub) << " veces" << endl;

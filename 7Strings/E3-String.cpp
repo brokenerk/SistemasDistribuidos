@@ -38,7 +38,7 @@ int main() {
     for (int i = 0; i < n; i++)
     	cadenota = cadenota + randomString();
 
-    cout << "Cadenota: " << cadenota << endl;
+    //cout << "Cadenota: " << cadenota << endl;
 
     string sub("IPN");
     cout << "Subcadena '" << sub << "'' encontrada: " << search(cadenota, sub) << " veces" << endl;
