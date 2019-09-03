@@ -13,7 +13,7 @@ public class Numericos {
     public static void main(String[] args) {
         double i=0, seno,coseno,tangente,logaritmo,raiz=0;
        
-        while (i<10000000)
+        while (i<1757600.0)
         {
            seno= Math.sin(i);
            coseno=Math.cos(i);

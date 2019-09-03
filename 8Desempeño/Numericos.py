@@ -2,12 +2,8 @@ import math
 import time
 
 def main():
-    print("hola")
-    max = input("Teclea n: ")
-    start = time.time()
+    max = 1757600.0
     calculosNumericos(max)
-    end = time.time()
-    print(end - start)
 
 def calculosNumericos(m):
     max = float(m)

@@ -9,10 +9,10 @@ string randomString() {
 
 	for(int i = 0; i < 3; i++) {
 		int aleat = rand() % 25;
-		palabra = palabra + alfabeto.at(aleat);
+		palabra.insert(i, 1, alfabeto.at(aleat));
 	}
-
-	return palabra + " ";
+	palabra.insert(3, 1, ' ');
+	return palabra;
 }
 
 int search(string cad, string pat) {
@@ -29,14 +29,14 @@ int search(string cad, string pat) {
 
 int main() {
 	srand(time(NULL));
-	int n = 0;
+	int n = 1757600;
 
-    cout << "Teclea n: ";
-    cin >> n;
-    string cadenota;
+    //cout << "Teclea n: ";
+    //cin >> n;
+    string cadenota = "";
 
     for (int i = 0; i < n; i++)
-    	cadenota = cadenota + randomString();
+    	cadenota.insert(4 * i, randomString());
 
     //cout << "Cadenota: " << cadenota << endl;
 

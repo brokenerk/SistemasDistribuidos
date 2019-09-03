@@ -37,10 +37,10 @@ int search(char* cad, char* pat) {
 
 int main() {
 	srand(time(NULL));
-	int n = 0;
+	int n = 1757600;
 
-    printf("Teclea n: ");
-    scanf("%d", &n);
+    //printf("Teclea n: ");
+    //scanf("%d", &n);
     char* cadenota = NULL;
 
     for (int i = 0; i < n; i++) {

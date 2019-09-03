@@ -22,7 +22,8 @@ def search(cad, pat):
 	return veces
 
 random.seed(0)
-n = input("Teclea n: ")
+#n = input("Teclea n: ")
+n = 1757600
 cadenota = ""
 for i in range(0, n):
 	cadenota = cadenota + randomString()

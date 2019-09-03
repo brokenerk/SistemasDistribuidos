@@ -1,8 +1,7 @@
-#include <iostream>
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
-using namespace std;
+#include <stdio.h>
 
 char* randomString() {
 	char alfabeto[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -40,8 +39,8 @@ int main() {
 	srand(time(NULL));
 	int n = 0;
 
-    cout << "Teclea n: ";
-    cin >> n;
+    printf("Teclea n: ");
+    scanf("%d", &n);
     char* cadenota = NULL;
 
     for (int i = 0; i < n; i++) {
@@ -50,14 +49,8 @@ int main() {
 		memcpy(cadenota + 4 * i, a, 4);
     }
 
-    /*cout << "Cadenota: ";
-    for(int i = 0; i < strlen(cadenota); i++) {
-    	cout << cadenota[i];
-    }
-    cout << endl;*/
-
     char sub[] = "IPN";
-    cout << "Subcadena '" << sub << "'' encontrada: " << search(cadenota, sub) << " veces" << endl;
+    printf("Subcadena encontrada: %d veces\n", search(cadenota,sub));
     return 0;
 }
 
