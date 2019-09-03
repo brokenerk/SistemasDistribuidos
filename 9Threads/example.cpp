@@ -1,3 +1,4 @@
+//g++ -std=c++11  example.cpp -o example -lpthread
 #include <iostream>
 #include <unistd.h>
 #include <thread>
