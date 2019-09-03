@@ -5,16 +5,17 @@
 using namespace std;
 int valor = 0;
 
-void decre() {
-	valor -= 1;
-	printf("Hilo %ld ejecutando dec(). Valor: %d\n", this_thread::get_id(), valor);
-	sleep(1);
+void decre()
+{
+    valor -= 1;
+    printf("Hilo %ld ejecutando dec(). Valor: %d\n", this_thread::get_id(), valor);
+    sleep(1);
 }
 
 void incre()
 {
-	valor += 1;
-	printf("Hilo %ld ejecutando inc(). Valor: %d\n", this_thread::get_id(), valor);
+    valor += 1;
+    printf("Hilo %ld ejecutando inc(). Valor: %d\n", this_thread::get_id(), valor);
     sleep(1);
 }
 
