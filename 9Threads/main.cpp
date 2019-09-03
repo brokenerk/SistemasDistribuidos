@@ -7,36 +7,31 @@ using namespace std;
 int global = 10;
 Semaforo sem1, sem2, sem3;
 
-void funcion1()
-{
-    while (global > 0)
-    {
+void funcion1() {
+    while (global > 0) {
         sem1.wait();
         printf("Soy el hilo 1, y esta es la impresion %d\n", global--);
         sem2.post();
     }
 }
-void funcion2()
-{
-    while (global > 0)
-    {
+
+void funcion2() {
+    while (global > 0) {
         sem2.wait();
         printf("Soy el hilo 2, y esta es la impresion %d\n", global--);
         sem3.post();
     }
 }
-void funcion3()
-{
-    while (global > 0)
-    {
 
+void funcion3() {
+    while (global > 0) {
         sem3.wait();
         printf("Soy el hilo 3, y esta es la impresion %d\n", global--);
         sem1.post();
     }
 }
-int main()
-{
+
+int main() {
     //Inicializa los semaforos
     sem1.init(1);
     sem2.init(0);
