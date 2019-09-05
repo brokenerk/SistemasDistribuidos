@@ -2,7 +2,7 @@
 #include <cstdlib>
 
 using namespace std;
-#define numeroElementos 10000000000
+#define numeroElementos 2000000000
 int main(){
  int *arreglo, i;
  arreglo = new int[numeroElementos];
