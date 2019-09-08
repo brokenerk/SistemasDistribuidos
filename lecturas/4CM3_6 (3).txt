@@ -1,0 +1,29 @@
+¿Qué información debe incluirse en la forma lineal al serializar un objeto?
+A. El nombre de la clase y un número de versión
+B. Los nombres y los tipos de sus campos, recursivamente
+C. El nombre de la clase del objeto, los nombres, tipos y valores de sus variables de instancia
+D. Apuntadores de los objetos a los cuales hace referencia
+
+¿Cómo se pueden mandar estructuras de datos y datos primitivos en un mensaje?
+A. Enviando sólo a sistemas del mismo tipo de empaquetado y formato externo
+B. A través de un acuerdo mutuo de formato externo y empaquetado
+C. Utilizando cadenas de caracteres y enteros
+D. A través de bytes sin ningún tipo de formato especial
+
+¿En cuál protocolo el cliente puede seguir inmediatamente después de haber mandado el mensaje de petición?
+A. Protocolo petición
+B. Protocolo petición - respuesta - confirmación de la respuesta  
+C. Protocolo petición - respuesta
+D. En todos 
+
+¿Cuál es una de las razones por las cuales se utiliza streams TCP para implementar el protocolo petición - respuesta? 
+A. No usar implementación de protocolos multipaquete
+B. Manejar historiales de peticiones
+C. Restringir el tamaño de los mensajes
+D. Ninguna de las anteriores 
+
+En el protocolo HTTP, ¿Cuál es el método para eliminar un recurso del servidor? 
+A. DELETE
+B. PUT
+C. OPTIONS
+D. TRACE

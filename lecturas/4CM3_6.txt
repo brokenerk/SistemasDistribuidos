@@ -1,0 +1,29 @@
+¿Cuál es la motivación principal de los sistemas distribuidos?
+A. Compartir recursos
+B. Distribución del trabajo
+C. Dispersión geográfica
+D. Es más económico muchos ordenadores pequeños conectados que uno muy grande 
+
+¿Cuál es una característica de un sistema distribuido?
+A. Fallos independientes de los componentes
+B. Temporización o reloj general
+C. Divergencia en los componentes
+D. Ejecución aislada de programas que comparten recursos
+
+¿Cuáles son las 3 características esenciales de seguridad en un sistema distribuido?
+A. Confidencialidad, integridad y disponibilidad
+B. Atomicidad, aislamiento y transparencia
+C. Encriptación, codificación y decodificación
+D. Consistencia, encriptación y durabilidad
+
+¿Qué caracteristica de un sistema distribuido hace referencia a qué tanto el usuario puede ver del sistema?
+A. Transparencia
+B. Seguridad
+C. Tratamiento de fallos
+D. Heterogeneidad
+
+¿Que caracteristica de un sistema distribuido hace referencia a que el sistema pueda crecer tanto en usuarios como en recursos? 
+A. Escalabilidad
+B. Seguridad
+C. Transparencia
+D. Concurrencia

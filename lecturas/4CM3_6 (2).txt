@@ -1,0 +1,29 @@
+A nivel IP, ¿cuándo una computadora pertenece a un grupo multicast?
+A. Uno o más procesos tienen sockets que pertenecen a ese grupo
+B. El socket tiene las direcciones multicast y los puertos de cada miembro del equipo
+C. Se envia por primera vez un datagrama UDP al grupo
+D. Se obtiene una copia de un mensaje multicast recibido en dicho grupo
+
+¿Qué método de la API de Java permite configurar el TTL para un socket multicast?
+A. setTimeToLive
+B. joinGroup
+C. leaveGroup
+D. configureTTL
+
+¿Qué facilidades ofrece el uso de la comunicación multicast en sistemas distribuidos?
+A. Tolerancia a fallos basado en datos replicados, descubrimiento de servicios, mejor rendimiento y propagación de notificaciones de eventos
+B. Envío de mensajes a grupos de multidifusión
+C. Control de flujo, mejor rendimiento y control de recepción de mensajes
+D. Control de integridad de los mensajes, canales aislados y control de fallos
+
+¿Cuál es el rango de IPs reservadas para direcciones multicast?
+A. 224.0.0.0 - 239.255.255.255
+B. 10.0.0.0 - 10.255.255.255
+C. 192.168.0.0 - 192.168.255.255
+D. 240.0.0.0 - 247.255.255.255
+
+¿Cuál de estas características no es parte de la multidifusión? 
+A. Ordenamiento de mensajes
+B. Descubriendo servicios en redes espontáneas
+C. Mejor rendimiento mediante replicados
+D. Propagación de notificaciones de evento

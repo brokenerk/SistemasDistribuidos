@@ -1,0 +1,29 @@
+¿Cual es el nombre de los paquetes independientes que permiten que un proceso emisor transmita un mensaje simple a un proceso receptor?
+A. Datagramas
+B. Tramas
+C. Paquetes de red
+D. Mensajes simples
+
+¿En qué tipo de comunicación las operaciones envía y recibe son bloqueantes?
+A. Síncrona
+B. Simple
+C. Múltiple
+D. Asíncrona
+
+¿Como se llama la clase que abstrae la comunicación entre procesos?
+A. Socket
+B. Datagram
+C. InetAddress
+D. OutputStream e InputStream
+
+¿Por qué resulta atractiva la elección de utilizar datagramas UDP para algunas aplicaciones?
+A. La necesidad de almacenar información de estado en el origen y en el destino
+B. La transmisión de mensajes extra
+C. La latencia para el emisor
+D. Todas las anteriores
+
+¿Cuáles son los principales componentes en una conexión con el protocolo TCP?
+A. Socket cliente, socket servidor, flujos de lectura, flujos de escritura
+B. Puerto, socket cliente, dirección host y flujos de lectura-escritura
+C. Flujos de lectura, flujos de escritura, objeto DataInputStream y DataOutputStream
+D. Conector, método accept, objeto Socket, métodos getInputStream() y getOutputStream()
