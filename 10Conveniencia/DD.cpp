@@ -20,11 +20,11 @@ string randomString() {
 	return palabra;
 }
 
-char buffer[1757600 * 4];
+char buffer[97576 * 4];
 
 int main(int argc, char *argv[]){
 	srand(time(NULL));
-	int n = 1757600;
+	int n = 97576;
 
 	int destino;
 	string linea = "";
@@ -37,8 +37,9 @@ int main(int argc, char *argv[]){
     for (int i = 0; i < n; i++)
     	linea.insert(4 * i, randomString());
 
-	strcpy(buffer, linea.c_str( ));//Abre un archivo para escritura, si no existe lo crea, si existe lo trunca, con permisos rw-
-	
+	strcpy(buffer, linea.c_str());
+
+	//Abre un archivo para escritura, si no existe lo crea, si existe lo trunca, con permisos rw-
 	if((destino = open(argv[1], O_WRONLY|O_TRUNC|O_CREAT, 0666)) == -1){
 		perror(argv[1]);
 		exit(-1);
