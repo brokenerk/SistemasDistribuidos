@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include <netinet/in.h>
 #include <netdb.h>
-#include <strings.h>
+#include <string.h>
 
 int puerto = 7200;
 
-int main(void)
+int main(int argc, char* argv[])
 {
    struct sockaddr_in msg_to_server_addr, client_addr;
    int s, num[2], res;
@@ -16,7 +16,7 @@ int main(void)
    /* rellena la dirección del servidor */
    bzero((char *)&msg_to_server_addr, sizeof(msg_to_server_addr));
    msg_to_server_addr.sin_family = AF_INET;
-   msg_to_server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+   msg_to_server_addr.sin_addr.s_addr = inet_addr(argv[1]);
    msg_to_server_addr.sin_port = htons(puerto);
    
    /* rellena la direcciòn del cliente*/
@@ -33,6 +33,14 @@ int main(void)
    
    /* se bloquea esperando respuesta */
    recvfrom(s, (char *)&res, sizeof(int), 0, NULL, NULL);
+
+   unsigned char ip[4];
+   memcpy(ip, &msg_to_server_addr.sin_addr.s_addr, 4);
+
+   printf("Mensaje recibido de:\n");
+   printf("IP: %d.%d.%d.%d \n", ip[0], ip[1], ip[2], ip[3]);
+   printf("Puerto: %d\n", msg_to_server_addr.sin_port);
+   
    printf("2 + 5 = %d\n", res);
    close(s);
 }
