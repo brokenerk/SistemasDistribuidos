@@ -23,5 +23,10 @@ SocketDatagrama::recibe(PaqueteDatagrama & p) {
 }
 
 SocketDatagrama::envia(PaqueteDatagrama & p) {
-	
+	/* rellena la dirección del servidor */
+   	bzero((char *)&direccionForaneo, sizeof(direccionForaneo));
+   	direccionForaneo.sin_family = AF_INET;
+   	direccionForaneo.sin_addr.s_addr = inet_addr(p.obtieneDireccion());
+   	direccionForaneo.sin_port = htons(p.obtienePuerto());
+	return sendto(s, (char *)p.obtieneDatos(), p.obtieneLonguitud(), 0, (struct sockaddr *) &direccionForaneo, sizeof(direccionForaneo));
 }
