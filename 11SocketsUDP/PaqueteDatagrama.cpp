@@ -9,8 +9,11 @@ PaqueteDatagrama::PaqueteDatagrama(char * data,unsigned int datatam, char * dir,
 PaqueteDatagrama::PaqueteDatagrama(unsigned int tam){
     longitud=tam;
 }
-PaqueteDatagrama::PaqueteDatagrama(){
-    //"UWU"
+PaqueteDatagrama::~PaqueteDatagrama(){
+    delete[] datos;
+    delete[] ip;
+    delete longitud;
+    delete puerto;
 }
 
 char * PaqueteDatagrama::obtieneDireccion(){
