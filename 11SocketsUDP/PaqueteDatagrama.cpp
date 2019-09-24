@@ -1,4 +1,5 @@
 #include <string.h>
+#include <cstdlib>
 #include "PaqueteDatagrama.h"
 PaqueteDatagrama::PaqueteDatagrama(char * data,unsigned int datatam, char * dir,int port){
     datos= new char[datatam];
@@ -13,8 +14,8 @@ PaqueteDatagrama::PaqueteDatagrama(unsigned int tam){
 PaqueteDatagrama::~PaqueteDatagrama(){
     delete[] datos;
     delete[] ip;
-    delete longitud;
-    delete puerto;
+    puerto=NULL;
+    longitud=NULL;
 }
 
 char * PaqueteDatagrama::obtieneDireccion(){
