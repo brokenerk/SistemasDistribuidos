@@ -10,6 +10,7 @@ PaqueteDatagrama::PaqueteDatagrama(char * data,unsigned int datatam, char * dir,
 }
 PaqueteDatagrama::PaqueteDatagrama(unsigned int tam){
     longitud=tam;
+    datos = new char[tam];
 }
 PaqueteDatagrama::~PaqueteDatagrama(){
     delete[] datos;
