@@ -15,8 +15,6 @@ PaqueteDatagrama::PaqueteDatagrama(unsigned int tam){
 PaqueteDatagrama::~PaqueteDatagrama(){
     delete[] datos;
     delete[] ip;
-    puerto=NULL;
-    longitud=NULL;
 }
 
 char * PaqueteDatagrama::obtieneDireccion(){
@@ -25,6 +23,10 @@ char * PaqueteDatagrama::obtieneDireccion(){
 
 unsigned int PaqueteDatagrama::obtieneLongitud(){
     return longitud;
+}
+
+int PaqueteDatagrama::obtienePuerto(){
+    return puerto;
 }
 
 char * PaqueteDatagrama::obtieneDatos(){
