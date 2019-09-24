@@ -1,3 +1,5 @@
+#ifndef PAQUETEDATAGRAMA_H_
+#define PAQUETEDATAGRAMA_H_
 class PaqueteDatagrama {
 public:
  PaqueteDatagrama(char *, unsigned int, char *, int );
@@ -16,3 +18,4 @@ private:
  unsigned int longitud; //Almacena la longitude de la cadena de datos
  int puerto; //Almacena el puerto
 }; 
+#endif
