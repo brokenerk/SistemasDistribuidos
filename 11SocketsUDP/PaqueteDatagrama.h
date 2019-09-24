@@ -4,7 +4,7 @@ class PaqueteDatagrama {
 public:
  PaqueteDatagrama(char *, unsigned int, char *, int );
  PaqueteDatagrama(unsigned int );
- PaqueteDatagrama();
+ ~PaqueteDatagrama();
  char *obtieneDireccion();
  unsigned int obtieneLongitud();
  int obtienePuerto();

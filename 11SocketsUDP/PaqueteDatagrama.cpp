@@ -1,6 +1,7 @@
 #include <string.h>
 #include "PaqueteDatagrama.h"
 PaqueteDatagrama::PaqueteDatagrama(char * data,unsigned int datatam, char * dir,int port){
+    datos= new char[datatam];
     memcpy(datos,&data,datatam);
     memcpy(ip,&dir,16);
     longitud=datatam;
