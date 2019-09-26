@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <unistd.h>
 using namespace std;
 
 SocketDatagrama::SocketDatagrama(int pto) {
@@ -32,15 +33,12 @@ SocketDatagrama::SocketDatagrama(int pto) {
 }
 
 SocketDatagrama::~SocketDatagrama() {
-	bzero((char *)&direccionForanea, sizeof(direccionForanea));
-	bzero((char *)&direccionLocal, sizeof(direccionLocal));
-	s = 0;
+	close(s);
 }
 
 int SocketDatagrama::recibe(PaqueteDatagrama &p) {
 	unsigned int len = sizeof(direccionForanea);
 	int rec = recvfrom(s, (char *)p.obtieneDatos(), p.obtieneLongitud() * sizeof(char), 0, (struct sockaddr *) &direccionForanea, &len);
-
 	unsigned char ip[4];
 	memcpy(ip, &direccionForanea.sin_addr.s_addr, 4);
 

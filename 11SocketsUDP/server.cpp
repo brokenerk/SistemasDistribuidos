@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(){
-    SocketDatagrama server = SocketDatagrama(3000);
+    SocketDatagrama server = SocketDatagrama(7200);
     cout << "Server iniciado" << endl;
 
     while(1) {
