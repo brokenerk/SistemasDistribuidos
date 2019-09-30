@@ -1,0 +1,11 @@
+run: servidor.cpp Respuesta.o SocketDatagrama.o PaqueteDatagrama.o
+	g++ servidor.cpp Respuesta.o SocketDatagrama.o PaqueteDatagrama.o -o server
+	
+Respuesta.o: Respuesta.cpp SocketDatagrama.o
+	g++ Respuesta.cpp SocketDatagrama.o -c 	
+
+SocketDatagrama.o: SocketDatagrama.cpp PaqueteDatagrama.o
+	g++ SocketDatagrama.cpp PaqueteDatagrama.o -c 
+
+PaqueteDatagrama.o: PaqueteDatagrama.cpp
+	g++ PaqueteDatagrama.cpp -c
