@@ -1,4 +1,5 @@
 #include "Solicitud.h"
+#include "mensaje.h"
 #include "SocketDatagrama.h"
 #include "PaqueteDatagrama.h"
 #include <iostream>
@@ -15,7 +16,14 @@ Solicitud::Solicitud() {
 }
 
 char* Solicitud::doOperation(char *IP, int puerto, int operationId, char *arguments) {
-	PaqueteDatagrama p = PaqueteDatagrama(arguments, 4000, IP, puerto);
+	struct mensaje sms;
+	sms.messageType = 0;
+	sms.requestId = 0;
+	sms.operationId = operationId;
+    memcpy(sms.arguments, arguments, 4000);
+    cout << arguments << endl;
+
+	PaqueteDatagrama p = PaqueteDatagrama((char*)&sms, 4000, IP, puerto);
 	socketlocal->envia(p);
 	return "ok";
 }

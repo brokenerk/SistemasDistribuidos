@@ -4,11 +4,11 @@
 using namespace std;
 int main(){
     Respuesta resp(7200);
-    struct mensaje * mensaje;
+    mensaje * mensaje;
     while (true)
     {
         mensaje = resp.getRequest();
-        //char * info="A";
-        //resp.sendReply(info);
+        cout << "imprimiendo" << endl;
+        cout << mensaje->arguments << endl;
     }
 }
