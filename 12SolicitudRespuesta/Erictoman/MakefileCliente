@@ -1,8 +1,0 @@
-Outs.o: SocketDatagrama.cpp PaqueteDatagrama.cpp Solicitud.cpp
-	g++ SocketDatagrama.cpp -c 
-	g++ PaqueteDatagrama.cpp -c
-	g++ Solicitud.cpp -c
-
-run: SocketDatagrama.o PaqueteDatagrama.o Solicitud.o client.cpp
-	g++ client.cpp SocketDatagrama.o PaqueteDatagrama.o Solicitud.o -o client
-
