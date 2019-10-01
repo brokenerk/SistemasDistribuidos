@@ -13,10 +13,7 @@ struct mensaje * Respuesta::getRequest(void){
     if (tam == -1) {
       perror("Recvfrom failed");
     }
-    cout << "antes" << endl;
     sms = (mensaje*) p.obtieneDatos();
-    cout << "despues" << endl;
-    
     return sms;
 }
 

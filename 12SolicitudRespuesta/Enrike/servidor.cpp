@@ -9,6 +9,6 @@ int main(){
     {
         mensaje = resp.getRequest();
         cout << "imprimiendo" << endl;
-        cout << mensaje->arguments << endl;
+        cout << (*mensaje).arguments << endl;
     }
 }
