@@ -7,12 +7,13 @@ int main(){
 
     while (true)
     {
+    	cout << "Servidor iniciado....\n";
         struct mensaje* msj = resp.getRequest();
-        //cout << "Datos recibidos:" << endl;
-        printf("%d %d\n", msj->arguments[0], msj->arguments[1]);
+
+        printf("Datos recibidos: %d %d\n", msj->arguments[0], msj->arguments[1]);
         int res = msj->arguments[0] + msj->arguments[1];
-        //cout << "Enviando.." << endl;
-        printf("%d\n", res);
+
+        printf("\nEnviando respuesta: %d\n", res);
         resp.sendReply((char*) &res);
     }
 }

@@ -14,9 +14,9 @@ struct mensaje* Respuesta::getRequest(void){
     if (tam == -1) {
       perror("Recvfrom failed");
     }
-    //cout << "Mensaje recibido: " << endl;
-    //cout << "Direccion: " << p.obtieneDireccion() << endl;
-    //cout << "Puerto: " << p.obtienePuerto() << endl;
+    cout << "\nMensaje recibido" << endl;
+    cout << "Direccion: " << p.obtieneDireccion() << endl;
+    cout << "Puerto: " << p.obtienePuerto() << endl;
     return (struct mensaje*) p.obtieneDatos();
 }
 
@@ -29,7 +29,7 @@ void Respuesta::sendReply(char *respuesta){
 
     p.inicializaDatos((char*)&sms);
     socketlocal->envia(p);
-    cout << "\nDireccion: " << p.obtieneDireccion() << endl;
+    cout << "Direccion: " << p.obtieneDireccion() << endl;
     cout << "Puerto: " << p.obtienePuerto() << endl;
     if(socketlocal->envia(p))
         cout << "Mensaje enviado" << endl;

@@ -20,6 +20,6 @@ int main(int argc, char* argv[]) {
 	struct mensaje* msj = s.getResponse();
 	int res;
 	memcpy(&res, msj->arguments, 4);
-    printf("\nRespuesta: %d\n", res);
+    printf("Respuesta: %d\n\n", res);
 	return 0;
 }
