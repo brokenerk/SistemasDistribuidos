@@ -8,18 +8,14 @@ int main(int argc, char* argv[]) {
 		printf("Forma de uso: %s ip_servidor num1 num2\n", argv[0]);
 		exit(0);
 	}
-
 	char num[2];
 	num[0] = atoi(argv[2]);
 	num[1] = atoi(argv[3]);
 	printf("Datos: %d %d\n", num[0], num[1]);
-
 	Solicitud s;
-	cout << s.doOperation(argv[1], 7200, 1, num) << endl;
-
-	struct mensaje* msj = s.getResponse();
-	int res;
-	memcpy(&res, msj->arguments, 4);
-    printf("Respuesta: %d\n\n", res);
+	char * res = s.doOperation(argv[1], 7200, 1, num);
+	int res2;
+	memcpy(&res2, res, 4);
+    printf("Respuesta: %d\n\n", res2);
 	return 0;
 }
