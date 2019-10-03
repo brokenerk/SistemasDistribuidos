@@ -13,10 +13,12 @@ char* Solicitud::doOperation(char *IP, int puerto, int operationId, char *argume
 	sms.requestId = 0;
 	sms.operationId = operationId;
     memcpy(sms.arguments, arguments, sizeof(arguments));
+    
 	PaqueteDatagrama p = PaqueteDatagrama((char*)&sms, sizeof(sms), IP, puerto);
 	cout << "Direccion: " << p.obtieneDireccion() << endl;
 	cout << "Puerto: " << p.obtienePuerto() << endl;
 	socketlocal->envia(p);
+
 	PaqueteDatagrama p1 = PaqueteDatagrama(4000);
     int tam = socketlocal->recibe(p1);
     if (tam == -1) {
@@ -27,16 +29,4 @@ char* Solicitud::doOperation(char *IP, int puerto, int operationId, char *argume
     cout << "Puerto: " << p1.obtienePuerto() << endl;
 	struct mensaje* msj = (struct mensaje *)p1.obtieneDatos();
     return (char *) msj->arguments;
-}
-
-struct mensaje* Solicitud::getResponse(void){
-	PaqueteDatagrama p = PaqueteDatagrama(4000);
-    int tam = socketlocal->recibe(p);
-    if (tam == -1) {
-      perror("Recvfrom failed");
-    }
-    cout << "\nMensaje recibido" << endl;
-    cout << "Direccion: " << p.obtieneDireccion() << endl;
-    cout << "Puerto: " << p.obtienePuerto() << endl;
-    return (struct mensaje*) p.obtieneDatos();
 }

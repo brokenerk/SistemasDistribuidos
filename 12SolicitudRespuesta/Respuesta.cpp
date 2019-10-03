@@ -31,8 +31,5 @@ void Respuesta::sendReply(char *respuesta){
     socketlocal->envia(p);
     cout << "Direccion: " << p.obtieneDireccion() << endl;
     cout << "Puerto: " << p.obtienePuerto() << endl;
-    if(socketlocal->envia(p))
-        cout << "Mensaje enviado" << endl;
-    else
-        cout << "Error" << endl;
+    socketlocal->envia(p);
 }
