@@ -44,6 +44,36 @@ int SocketDatagrama::recibe(PaqueteDatagrama &p)
 {
 	unsigned int len = sizeof(direccionForanea);
 	int rec = recvfrom(s, (char *)p.obtieneDatos(), p.obtieneLongitud() * sizeof(char), 0, (struct sockaddr *)&direccionForanea, &len);
+
+	unsigned char ip[4];
+	memcpy(ip, &direccionForanea.sin_addr.s_addr, 4);
+	string ip1 = to_string(ip[0]);
+	string ip2 = to_string(ip[1]);
+	string ip3 = to_string(ip[2]);
+	string ip4 = to_string(ip[3]);
+
+	ip1.append(".");
+	ip1.append(ip2);
+	ip1.append(".");
+	ip1.append(ip3);
+	ip1.append(".");
+	ip1.append(ip4);
+
+	char dirIp[16];
+	strcpy(dirIp, ip1.c_str());
+	p.inicializaIp(dirIp);
+	p.inicializaPuerto(direccionForanea.sin_port);
+	return rec;
+}
+
+int SocketDatagrama::recibeTimeout(PaqueteDatagrama &p, time_t segundos, suseconds_t microsegundos)
+{
+	timeout.tv_sec = segundos;
+	timeout.tv_usec = microsegundos;
+	unsigned int len = sizeof(direccionForanea);
+	setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
+
+	int rec = recvfrom(s, (char *)p.obtieneDatos(), p.obtieneLongitud() * sizeof(char), 0, (struct sockaddr *)&direccionForanea, &len);
 	if (rec < 0)
 	{
 		if (errno == EWOULDBLOCK)
@@ -65,7 +95,6 @@ int SocketDatagrama::recibe(PaqueteDatagrama &p)
 		string ip2 = to_string(ip[1]);
 		string ip3 = to_string(ip[2]);
 		string ip4 = to_string(ip[3]);
-
 		ip1.append(".");
 		ip1.append(ip2);
 		ip1.append(".");
@@ -78,34 +107,6 @@ int SocketDatagrama::recibe(PaqueteDatagrama &p)
 		p.inicializaIp(dirIp);
 		p.inicializaPuerto(direccionForanea.sin_port);
 	}
-	return rec;
-}
-
-int SocketDatagrama::recibeTimeout(PaqueteDatagrama &p, time_t segundos, suseconds_t microsegundos)
-{
-	timeout.tv_sec = segundos;
-	timeout.tv_usec = microsegundos;
-	unsigned int len = sizeof(direccionForanea);
-	setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout));
-
-	int rec = recvfrom(s, (char *)p.obtieneDatos(), p.obtieneLongitud() * sizeof(char), 0, (struct sockaddr *)&direccionForanea, &len);
-	unsigned char ip[4];
-	memcpy(ip, &direccionForanea.sin_addr.s_addr, 4);
-	string ip1 = to_string(ip[0]);
-	string ip2 = to_string(ip[1]);
-	string ip3 = to_string(ip[2]);
-	string ip4 = to_string(ip[3]);
-	ip1.append(".");
-	ip1.append(ip2);
-	ip1.append(".");
-	ip1.append(ip3);
-	ip1.append(".");
-	ip1.append(ip4);
-
-	char dirIp[16];
-	strcpy(dirIp, ip1.c_str());
-	p.inicializaIp(dirIp);
-	p.inicializaPuerto(direccionForanea.sin_port);
 	return rec;
 }
 

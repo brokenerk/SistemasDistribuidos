@@ -1,0 +1,3 @@
+400 bytes: 8.83 segs promedio
+Tam min 8 bytes: 7 segs promedio
+Sin impresiones: 6 segs promedio
