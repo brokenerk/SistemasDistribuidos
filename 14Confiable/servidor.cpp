@@ -2,19 +2,19 @@
 #include <cstring>
 #include <iostream>
 using namespace std;
-int main(){
+int main()
+{
     Respuesta resp(7200);
-
-    while (true) {
-    	cout << "Servidor iniciado....\n";
-        struct mensaje* msj = resp.getRequest();
-
-        int n[2];
+    int nbd = 0;
+    while (true)
+    {
+        cout << "Servidor iniciado....\n";
+        struct mensaje *msj = resp.getRequest();
+        int n[64999];
         memcpy(&n, &msj->arguments, sizeof(msj->arguments));
-        printf("Datos recibidos: %d %d\n", n[0], n[1]);
-
-        int res = n[0] + n[1];
-        printf("\nEnviando respuesta: %d\n", res);
-        resp.sendReply((char*) &res);
+        int res = n[0];
+        nbd = nbd + res;
+        n[0] = nbd;
+        resp.sendReply((char *)&n);
     }
 }

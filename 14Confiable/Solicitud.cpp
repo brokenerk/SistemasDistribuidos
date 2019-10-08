@@ -19,7 +19,7 @@ char *Solicitud::doOperation(char *IP, int puerto, int operationId, char *argume
 	cout << "Direccion: " << p.obtieneDireccion() << endl;
 	cout << "Puerto: " << p.obtienePuerto() << endl;
 	socketlocal->envia(p);
-	PaqueteDatagrama p1 = PaqueteDatagrama(4000);
+	PaqueteDatagrama p1 = PaqueteDatagrama(65000);
 	int tam = socketlocal->recibeTimeout(p1, 2, 500);
 	int n = 1;
 	while (tam == -1 && n < 7)
