@@ -1,4 +1,4 @@
-#define TAM_MAX_DATA 8
+#define TAM_MAX_DATA 65000
 //Definicion de identificadores para operaciones permitidas
 #define suma 1
 // Definicion del formato de mensaje
