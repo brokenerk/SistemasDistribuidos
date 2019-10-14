@@ -14,7 +14,7 @@ char *Solicitud::doOperation(char *IP, int puerto, int operationId, char *argume
 	sms.messageType = 0;
 	sms.requestId = 0;
 	sms.operationId = operationId;
-	memcpy(sms.arguments, arguments, sizeof(arguments));
+	memcpy(sms.arguments, arguments, 65000);
 	PaqueteDatagrama p = PaqueteDatagrama((char *)&sms, sizeof(sms), IP, puerto);
 	cout << "Direccion: " << p.obtieneDireccion() << endl;
 	cout << "Puerto: " << p.obtienePuerto() << endl;

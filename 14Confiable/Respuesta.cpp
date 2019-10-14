@@ -29,7 +29,7 @@ void Respuesta::sendReply(char *respuesta)
     sms.messageType = 1;
     sms.operationId = 0;
     sms.requestId = 0;
-    memcpy(sms.arguments, respuesta, sizeof(respuesta));
+    memcpy(sms.arguments, respuesta, 65000);
 
     p.inicializaDatos((char *)&sms);
     socketlocal->envia(p);
