@@ -5,16 +5,18 @@ using namespace std;
 int main()
 {
     Respuesta resp(7200);
+    cout << "Servidor iniciado....\n";
     int nbd = 0;
-    while (true)
-    {
-        cout << "Servidor iniciado....\n";
+    while (true) {
         struct mensaje *msj = resp.getRequest();
-        int n[64999];
-        memcpy(&n, &msj->arguments, sizeof(msj->arguments));
-        int res = n[0];
-        nbd = nbd + res;
-        n[0] = nbd;
-        resp.sendReply((char *)&n);
+        
+        if(msj != NULL) {
+        	int n = 0;
+	        memcpy(&n, &msj->arguments, 4);
+	        nbd = nbd + n;
+	        printf("\nRecibido: %d \nNBD: %d\n", n, nbd);
+	        resp.sendReply((char *)&nbd);
+        }
+        
     }
 }
