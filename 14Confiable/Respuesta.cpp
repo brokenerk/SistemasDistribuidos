@@ -45,7 +45,7 @@ void Respuesta::sendReply(char *respuesta)
     memcpy(sms.arguments, respuesta, sizeof(respuesta));
 
     p.inicializaDatos((char *)&sms);
-    socketlocal->envia(p);
+    cout << "\nMensaje enviado" << endl;
     cout << "Direccion: " << p.obtieneDireccion() << endl;
     cout << "Puerto: " << p.obtienePuerto() << endl;
     socketlocal->envia(p);

@@ -30,7 +30,6 @@ int main(int argc, char *argv[])
 		}
 		printf("Num: %d\nRespuesta: %d \nOriginal: %d\n\n", arr, res, cuenta);
 		cont++;
-		sleep(3);
 	}
 	return 0;
 }
