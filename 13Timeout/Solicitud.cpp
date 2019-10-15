@@ -3,13 +3,11 @@
 #include <cstring>
 using namespace std;
 
-Solicitud::Solicitud()
-{
+Solicitud::Solicitud() {
 	socketlocal = new SocketDatagrama(0);
 }
 
-char *Solicitud::doOperation(char *IP, int puerto, int operationId, char *arguments)
-{
+char *Solicitud::doOperation(char *IP, int puerto, int operationId, char *arguments) {
 	struct mensaje sms;
 	sms.messageType = 0;
 	sms.requestId = 0;
@@ -22,19 +20,18 @@ char *Solicitud::doOperation(char *IP, int puerto, int operationId, char *argume
 	PaqueteDatagrama p1 = PaqueteDatagrama(4000);
 	int tam = socketlocal->recibeTimeout(p1, 2, 500);
 	int n = 1;
-	while (tam == -1 && n < 7)
-	{
+
+	while (tam == -1 && n < 7) {
 		socketlocal->envia(p);
 		tam = socketlocal->recibeTimeout(p1, 2, 500);
 		n++;
 	}
-	if (n == 7)
-	{
+
+	if (n == 7) {
 		cout << "Servidor no esta disponible, intente mas tarde." << endl;
 		exit(0);
 	}
-	else
-	{
+	else {
 		cout << "\nMensaje recibido" << endl;
 		cout << "Direccion: " << p1.obtieneDireccion() << endl;
 		cout << "Puerto: " << p1.obtienePuerto() << endl;

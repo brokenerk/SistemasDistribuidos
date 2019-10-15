@@ -8,29 +8,28 @@ Solicitud::Solicitud() {
 	socketlocal = new SocketDatagrama(0);
 }
 
-char *Solicitud::doOperation(char *IP, int puerto, int operationId, char *arguments)
-{
+char *Solicitud::doOperation(char *IP, int puerto, int operationId, char *arguments) {
 	struct mensaje sms;
 	sms.messageType = 0;
 	sms.requestId = contRequest;
-	printf("\nContRequest: %d\n", contRequest);
+	printf("\nContRequest: %u\n", contRequest);
 	sms.operationId = operationId;
 	memcpy(sms.arguments, arguments, sizeof(arguments));
 	PaqueteDatagrama p = PaqueteDatagrama((char *)&sms, sizeof(sms), IP, puerto);
 	cout << "Direccion: " << p.obtieneDireccion() << endl;
 	cout << "Puerto: " << p.obtienePuerto() << endl;
 	socketlocal->envia(p);
-	PaqueteDatagrama p1 = PaqueteDatagrama(4000);
+	PaqueteDatagrama p1 = PaqueteDatagrama(65000);
 	int tam = socketlocal->recibeTimeout(p1, 2, 500);
 	int n = 1;
-	while (tam == -1 && n < 7)
-	{
+
+	while (tam == -1 && n < 7) {
 		socketlocal->envia(p);
 		tam = socketlocal->recibeTimeout(p1, 2, 500);
 		n++;
 	}
-	if (n == 7)
-	{
+	
+	if (n == 7) {
 		cout << "Servidor no esta disponible, intente mas tarde." << endl;
 		exit(0);
 	}
