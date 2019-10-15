@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<title>Mongoose REST</title>
+		<script src="jquery.min.js"></script>
+	</head>
+	<body style="font-family:arial;">
+		<div style="text-align:center">
+			<h1>Mongoose REST - Rolando Romero T&eacute;llez</h1>
+			<form method=get id="form-search" class="block">
+				<h2>Introduzca cadena</h2>
+				<input type="text" id="search" name="search"><br><br>
+				<button>Enviar a Mongoose</button>
+			</form>
+			<div class="block" id="search-res"></div>
+		</div>
+	</body>
+</html>
+
+<script>
+	$("#search-res").hide();
+	$('#form-search').submit(function(){
+		$("#search-res").show();
+		$("#search-res").html("<img src='load.gif' width=50/>");
+		$.ajax({
+			type: "POST",
+			url: "/search",
+			data:{
+				query:$("#search").val()
+			},
+			success: function(data){
+				$("#search-res").html(data);
+			}
+		});
+		return false;
+	});
+</script>
+
+<style>
+	h1{
+		color:#009D9D;
+	}
+	body{
+		background-color:#004242;
+	}
+	.block{
+		background-color:#006D6D;
+		padding:20px;
+		margin-left:25%;
+		margin-right:25%;
+		border-radius:10px;
+	}
+	button{
+		background-color:#005959;
+		border:0;
+		padding:10px;
+		border-radius:10px;
+		color:#009D9D;
+	}
+	#search{
+		height:40px;
+		font-size:20px;
+		width:300px;
+		border-radius:10px;
+	}
+</style>
