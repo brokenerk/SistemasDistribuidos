@@ -1,0 +1,11 @@
+run: receptor.cpp  SocketMulticast.o PaqueteDatagrama.o
+	g++ receptor.cpp SocketMulticast.o PaqueteDatagrama.o -o receptor.o
+	
+SocketMulticast.o: SocketMulticast.cpp PaqueteDatagrama.o 
+	g++ SocketMulticast.cpp -c 
+
+PaqueteDatagrama.o: PaqueteDatagrama.cpp
+	g++ PaqueteDatagrama.cpp -c
+	
+clean:
+	rm *.o
