@@ -1,0 +1,29 @@
+Según la definición de ocurrencia anterior de Lamport, supongamos que tenemos un evento 'a' el cual envía un mensaje, un evento 'b' el cual es uno de recepción del mensaje por otro proceso y un evento 'c' el cual es un evento que ocurre en un proceso diferente y no intercambia mensajes ni con a ni con b, ¿cuál de las siguientes aseveraciones es correcta?
+A. a -> b
+B. b -> a
+C. a -> c
+D. b -> c
+
+¿Cúal es el problema de los relojes de Lamport? 
+A. No capturan la causalidad
+B. Se basa en la premisa de ocurrencia anterior
+C. Cada proceso mantiene un contador local
+D. No tiene ningún problema
+
+¿En qué capa se hacen los ajustes de reloj?
+A. Capa middleware
+B. Capa de aplicación 
+C. Capa de red
+D. Capa de transporte
+
+¿Qué garantizan los relojes vectoriales?
+A. Garantizan que un mensaje sea entregado sólo si todos los mensajes que casualmente lo preceden también han sido entregados
+B. La transmisión totalmente ordenada
+C. No garantiza nada 
+D. No garantiza la captura de la casualidad 
+
+¿Para qué sirven los algoritmos distribuidos de exclusión mutua? 
+A. Para evitar que los accesos concurrentes corrompan los recursos
+B. Para distribuir la carga en los procesos 
+C. Para garantizar la ocurrencia de dos eventos
+D. Para sincronizar relojes lógicos

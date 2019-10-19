@@ -1,0 +1,29 @@
+¿Por qué un reloj es importante en un sistema distribuido? 
+A. Nos ayuda a medir el tiempo el cual ayudará a la sincronización de los procesos
+B. Ayuda a estar a tiempo en las reuniones
+C. Nos dice en qué momento encender el ordenador
+D. Mide el tiempo transcurrido desde que se encendió el ordenador hasta que se apagó
+
+¿Cuáles son los 2 registros de un reloj?
+A. Contador y mantenedor
+B. Segundos e interrupciones
+C. Contador y segundos
+D. Mantenedor y mantenedor auxiliar
+
+¿Qué es el UTC?
+A. Es un estándar de tiempo
+B. Es un servicio de sincronización de tiempo
+C. Una empresa encargada de estudiar el tiempo y los algoritmos de compensación del mismo
+D. Es un reloj atómico que mide el tiempo global
+
+¿Existe algún algoritmo para tener el tiempo 100% ajustado? 
+A. No, pero existen muy cercanos a la realidad
+B. Si, se implementan actualmente
+C. No, el tiempo es relativo
+D. Depende de la definición de tiempo que se relacione
+
+¿De qué variables depende el sincronizar los relojes? 
+A. Lugar, distancia y tiempo
+B. Procesamiento y memoria RAM
+C. El cristal con el que está hecho el reloj y el tamaño de los registros
+D. El proveedor de tiempo real y su costo

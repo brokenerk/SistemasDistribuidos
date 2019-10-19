@@ -1,0 +1,29 @@
+¿Cuál es el principal objetivo de RPC?
+A. Un alto nivel de transparencia de distribución
+B. Controlar las interacciones entre los módulos de una aplicación distribuida
+C. Manejar las fallas y conservar la integridad de los datos
+D. Que la programación de los sistemas distribuidos sea distinta a la convencional
+
+¿Cuales son los 3 problemas de diseño para RPC?
+A. Interfaces, transparencia y semántica
+B. Sintaxis, manejo de errores e integración de los datos
+C. Codificación, decodificación y tiempo de respuesta
+D. Retransmisión, mensajes duplicados y pérdida de respuestas
+
+¿Cuál de los siguientes enunciados es verdadero con respecto a una interfaz de servicio?
+A. CORBA IDL accede a las variables de otras interfaces mediante getters y setters
+B. Los programadores no necesitan conocer los detalles de su implementación
+C. Las direcciones pueden pasarse como argumentos o devolverse como resultados
+D. Los parámetros de salida se devuelven en el mensaje de solicitud
+
+¿Cuales son las semánticas de llamadas asociadas con RCP?
+A. Maybe, at-least-one, at-most-one
+B. No aplicable, retransmisión, reejecución
+C. Al-least-one, at-most-one, complete
+D. None, maybe, optional
+
+¿Cuales son los componentes de un proceso servidor en la implementación RCP?
+A. Módulo de comunicación, despachador, stub procedure y procedimiento de servicio
+B. Petición, respuesta, despachador e invocador
+C. Programa, stub procedure y módulo de comunicación
+D. Identificador de proceso, mensaje de solicitud y socket
