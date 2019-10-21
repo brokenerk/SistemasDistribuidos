@@ -47,7 +47,7 @@ int SocketMulticast::recibe(PaqueteDatagrama &p){
 int SocketMulticast::envia(PaqueteDatagrama &p,unsigned char ttl){
     direccionForanea.sin_family = AF_INET;
 	direccionForanea.sin_addr.s_addr = inet_addr(p.obtieneDireccion());
-	direccionForanea.sin_port = p.obtienePuerto();
+	direccionForanea.sin_port = htons(p.obtienePuerto());
 	return sendto(s, (char *)p.obtieneDatos(), p.obtieneLongitud() * sizeof(char), 0, (struct sockaddr *)&direccionForanea, sizeof(direccionForanea));
 }
 
