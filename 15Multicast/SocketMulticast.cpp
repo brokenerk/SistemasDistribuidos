@@ -11,7 +11,7 @@ SocketMulticast::SocketMulticast(int pto){
 	direccionLocal.sin_family = AF_INET;
 	direccionLocal.sin_addr.s_addr = INADDR_ANY;
 	direccionLocal.sin_port = htons(pto);
-	if (bind(s, (struct sockaddr *)&direccionLocal, sizeof(direccionLocal)) < 0)
+	if (::bind(s, (struct sockaddr *)&direccionLocal, sizeof(direccionLocal)) < 0)
 	{
 		perror("bind failed");
 		exit(EXIT_FAILURE);
@@ -50,11 +50,13 @@ int SocketMulticast::envia(PaqueteDatagrama &p,unsigned char ttl){
 	direccionForanea.sin_port = p.obtienePuerto();
 	return sendto(s, (char *)p.obtieneDatos(), p.obtieneLongitud() * sizeof(char), 0, (struct sockaddr *)&direccionForanea, sizeof(direccionForanea));
 }
+
 void SocketMulticast::unirseGrupo(char *multicastIP){
     multicast.imr_multiaddr.s_addr = inet_addr(multicastIP);
     multicast.imr_interface.s_addr = htonl(INADDR_ANY);
     setsockopt(s,IPPROTO_IP,IP_ADD_MEMBERSHIP,&multicast,sizeof(multicast));
 }
+
 void SocketMulticast::salirseGrupo(char *multicastIP){
     multicast.imr_multiaddr.s_addr = inet_addr(multicastIP);
     multicast.imr_interface.s_addr = htonl(INADDR_ANY);
