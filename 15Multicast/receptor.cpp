@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
         cout << "Puerto: " << p.obtienePuerto() << endl;
         //cout << "Datos: " << p.obtieneDatos() << endl; 
         int n[2];
-        memcpy(&n , p.obtieneDatos, 8);
+        memcpy(&n , p.obtieneDatos(), 8);
         int resul= n[0]+n[1]; 
         cout <<"resultado " << resul << endl;
         cout << "Longitud: " << p.obtieneLongitud() << endl;
