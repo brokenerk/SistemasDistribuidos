@@ -3,12 +3,12 @@
 
 int main(int argc, char *argv[]) {
 	if(argc != 3) {
-        printf("Forma de uso: %s ip_servidor puerto \n", argv[0]);
+        printf("Forma de uso: %s ip_servidor puerto n1 n2 \n", argv[0]);
 		exit(0);
     }
     int  n[2];
-    n[0]=2;
-    n[1]=1;
+    n[0]=atoi(argv[3]);
+    n[1]=atoi(argv[4]);
 
     SocketMulticast sm = SocketMulticast(0);
     PaqueteDatagrama p = PaqueteDatagrama(100);
