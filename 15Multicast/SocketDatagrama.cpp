@@ -26,7 +26,7 @@ SocketDatagrama::SocketDatagrama(int pto) {
 	else
 		direccionLocal.sin_port = pto;
 
-	if (bind(s, (struct sockaddr *)&direccionLocal, sizeof(direccionLocal)) < 0 ) { 
+	if (::bind(s, (struct sockaddr *)&direccionLocal, sizeof(direccionLocal)) < 0 ) { 
 		perror("bind failed"); 
 		exit(EXIT_FAILURE); 
 	}
