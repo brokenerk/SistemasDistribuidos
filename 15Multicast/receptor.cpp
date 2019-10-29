@@ -24,12 +24,12 @@ int main(int argc, char *argv[]) {
         cout <<"numero 2: " << n[1] << endl;
         cout << "Longitud: " << p.obtieneLongitud() << endl;
         PaqueteDatagrama respuesta = PaqueteDatagrama(100);
-        respuesta.inicializaIp(p.obtieneDatos);
+        respuesta.inicializaIp(p.obtieneDatos());
         respuesta.inicializaDatos((char * )resul);
         respuesta.inicializaPuerto(7200);
         SocketDatagrama  sr = SocketDatagrama(7200);
         sr.envia(respuesta);
-        
+
 
 
     }
