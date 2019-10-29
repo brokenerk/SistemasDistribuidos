@@ -19,13 +19,13 @@ int main(int argc, char *argv[]) {
         //cout << "Datos: " << p.obtieneDatos() << endl; 
         int n[2];
         memcpy(&n , p.obtieneDatos(), 8);
-        int resul= n[0]+n[1]; 
-        char re[1];
-        re[0] = resul;
+        int resul[1];
+        resul[0]= n[0]+n[1]; 
+       
         cout <<"numero 1: " << n[0] << endl;
         cout <<"numero 2: " << n[1] << endl;
         cout << "Longitud: " << p.obtieneLongitud() << endl;
-        cout << "re: " << resul << endl;
+        cout << "re: " << resul[0] << endl;
         PaqueteDatagrama respuesta = PaqueteDatagrama(4);
         respuesta.inicializaIp(p.obtieneDireccion());
         respuesta.inicializaDatos((char * )resul);

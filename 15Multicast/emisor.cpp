@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
          PaqueteDatagrama respuesta = PaqueteDatagrama(4);
          sr.recibe(respuesta);
          int resul=0;
-         memcpy(resul , respuesta.obtieneDatos(), 4);
+         memcpy(&resul , respuesta.obtieneDatos(), 4);
          cout << "resul: " << resul <<endl;   
         
     }
