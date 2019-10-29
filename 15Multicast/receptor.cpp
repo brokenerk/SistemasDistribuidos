@@ -1,4 +1,6 @@
 #include "SocketMulticast.h"
+#include "SocketDatagrama.h"
+
 
 int main(int argc, char *argv[]) {
     if(argc != 3) {
@@ -18,8 +20,18 @@ int main(int argc, char *argv[]) {
         int n[2];
         memcpy(&n , p.obtieneDatos(), 8);
         int resul= n[0]+n[1]; 
-        cout <<"resultado " << resul << endl;
+        cout <<"numero 1: " << n[0] << endl;
+        cout <<"numero 2: " << n[1] << endl;
         cout << "Longitud: " << p.obtieneLongitud() << endl;
+        PaqueteDatagrama respuesta = PaqueteDatagrama(100);
+        respuesta.inicializaIp(p.obtieneDatos);
+        respuesta.inicializaDatos((char * )resul);
+        respuesta.inicializaPuerto(7200);
+        SocketDatagrama  sr = SocketDatagrama(7200);
+        sr.envia(respuesta);
+        
+
+
     }
     return 0;
 }
