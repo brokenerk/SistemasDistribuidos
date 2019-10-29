@@ -20,14 +20,17 @@ int main(int argc, char *argv[]) {
         int n[2];
         memcpy(&n , p.obtieneDatos(), 8);
         int resul= n[0]+n[1]; 
+        char re[1];
+        re[0] = resul;
         cout <<"numero 1: " << n[0] << endl;
         cout <<"numero 2: " << n[1] << endl;
         cout << "Longitud: " << p.obtieneLongitud() << endl;
-        PaqueteDatagrama respuesta = PaqueteDatagrama(100);
-        respuesta.inicializaIp(p.obtieneDatos());
+        cout << "re: " << resul << endl;
+        PaqueteDatagrama respuesta = PaqueteDatagrama(4);
+        respuesta.inicializaIp(p.obtieneDireccion());
         respuesta.inicializaDatos((char * )resul);
         respuesta.inicializaPuerto(7200);
-        SocketDatagrama  sr = SocketDatagrama(7200);
+        SocketDatagrama  sr = SocketDatagrama(0);
         sr.envia(respuesta);
 
 
