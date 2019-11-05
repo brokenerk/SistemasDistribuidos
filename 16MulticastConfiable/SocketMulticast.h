@@ -19,7 +19,9 @@ class SocketMulticast{
         SocketMulticast(int);
         ~SocketMulticast();
         int recibe(PaqueteDatagrama &p);
+        int recibeConfiable(PaqueteDatagrama &p);
         int envia(PaqueteDatagrama &p, unsigned char ttl);
+        int enviaConfiable(PaqueteDatagrama &p, unsigned char ttl, int num_receptores);
         void unirseGrupo(char *);
         void salirseGrupo(char *);
     

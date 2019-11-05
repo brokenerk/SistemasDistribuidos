@@ -1,5 +1,5 @@
 run: receptor.cpp  SocketMulticast.o PaqueteDatagrama.o SocketDatagrama.o
-	g++ receptor.cpp SocketMulticast.o PaqueteDatagrama.o SocketDatagrama.o -o receptor.o
+	g++ receptor.cpp SocketMulticast.o PaqueteDatagrama.o SocketDatagrama.o -o receptor
 	
 SocketMulticast.o: SocketMulticast.cpp PaqueteDatagrama.o 
 	g++ SocketMulticast.cpp -c 
