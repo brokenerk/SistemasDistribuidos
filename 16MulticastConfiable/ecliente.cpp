@@ -20,12 +20,10 @@ int main(int argc, char *argv[])
 		int arr = 1 + rand() % 9;
 		SocketMulticast sm = SocketMulticast(0);
     	PaqueteDatagrama p = PaqueteDatagrama((char*)&arr, 4, argv[1], 3030);
-
-    	if((sm.envia(p, 1)) > 0) {
+    	if((sm.enviaConfiable(p, 1,1)) > 0) {
 	        PaqueteDatagrama respuesta = PaqueteDatagrama(4);
 	        s.recibeTimeout(respuesta, 2, 500);
 	        memcpy(&res, respuesta.obtieneDatos(), 4);
-
 	        cuenta = cuenta + arr;
 			if (cuenta != res)
 			{

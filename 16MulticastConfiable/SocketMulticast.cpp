@@ -1,9 +1,11 @@
 #include "SocketMulticast.h"
+#include "mensaje.h"
 #include <iostream>
 using namespace std;
 int* acuseReceptores;
 
 SocketMulticast::SocketMulticast(int pto){
+	lastmessage=0;
     bzero((char *)&direccionForanea, sizeof(direccionForanea));
 	bzero((char *)&direccionLocal, sizeof(direccionLocal));
 	if ((s = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
@@ -56,6 +58,12 @@ int SocketMulticast::recibe(PaqueteDatagrama &p){
 int SocketMulticast::recibeConfiable(PaqueteDatagrama &p){
     unsigned int len = sizeof(direccionForanea);
 	int rec = recvfrom(s, (char *)p.obtieneDatos(), p.obtieneLongitud() * sizeof(char), 0, (struct sockaddr *)&direccionForanea, &len);
+	mensaje m;
+	int n2;
+	memcpy(&m,p.obtieneDatos(),rec);
+	memcpy(&n2,&m.arguments,4);
+	printf("%d",n2);
+	int id =m.idMessage;
 	unsigned char ip[4];
 	memcpy(ip, &direccionForanea.sin_addr.s_addr, 4);
 	string ip1 = to_string(ip[0]);
@@ -69,13 +77,15 @@ int SocketMulticast::recibeConfiable(PaqueteDatagrama &p){
 	ip1.append(".");
 	ip1.append(ip4);
 	char dirIp[16];
+	cout<<"id mensaje: "<<id<<endl;
 	strcpy(dirIp, ip1.c_str());
 	p.inicializaIp(dirIp);
+	p.inicializaDatos(m.arguments);
 	p.inicializaPuerto(direccionForanea.sin_port);
 	return rec;
 }
 
-int SocketMulticast::envia(PaqueteDatagrama &p, unsigned char ttl){	
+int SocketMulticast::envia(PaqueteDatagrama &p, unsigned char ttl){
 	setsockopt(s, IPPROTO_IP, IP_MULTICAST_TTL, (void*)&ttl, sizeof(ttl));
     direccionForanea.sin_family = PF_INET;
 	direccionForanea.sin_addr.s_addr = inet_addr(p.obtieneDireccion());
@@ -84,6 +94,11 @@ int SocketMulticast::envia(PaqueteDatagrama &p, unsigned char ttl){
 }
 
 int SocketMulticast::enviaConfiable(PaqueteDatagrama &p, unsigned char ttl, int num_receptores){
+	lastmessage++;
+	mensaje m;
+	int n2;
+	memcpy(&m.arguments,p.obtieneDatos(),p.obtieneLongitud());
+	memcpy(&m.idMessage,&lastmessage,4);
 	setsockopt(s, IPPROTO_IP, IP_MULTICAST_TTL, (void*)&ttl, sizeof(ttl));
     direccionForanea.sin_family = PF_INET;
 	direccionForanea.sin_addr.s_addr = inet_addr(p.obtieneDireccion());

@@ -29,6 +29,7 @@ class SocketMulticast{
         struct sockaddr_in direccionLocal;
         struct sockaddr_in direccionForanea;
         struct ip_mreq multicast;
+        int lastmessage;
         int s; //ID socket
 };
 #endif
