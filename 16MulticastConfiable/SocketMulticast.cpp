@@ -1,11 +1,10 @@
 #include "SocketMulticast.h"
-#include "mensaje.h"
 #include <iostream>
 using namespace std;
-int* acuseReceptores;
 
 SocketMulticast::SocketMulticast(int pto){
-	lastmessage=0;
+	contMessage = 0;
+	lastMessage = 0;
     bzero((char *)&direccionForanea, sizeof(direccionForanea));
 	bzero((char *)&direccionLocal, sizeof(direccionLocal));
 	if ((s = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
@@ -58,31 +57,40 @@ int SocketMulticast::recibe(PaqueteDatagrama &p){
 int SocketMulticast::recibeConfiable(PaqueteDatagrama &p){
     unsigned int len = sizeof(direccionForanea);
 	int rec = recvfrom(s, (char *)p.obtieneDatos(), p.obtieneLongitud() * sizeof(char), 0, (struct sockaddr *)&direccionForanea, &len);
-	mensaje m;
-	int n2;
-	memcpy(&m,p.obtieneDatos(),rec);
-	memcpy(&n2,&m.arguments,4);
-	printf("%d",n2);
-	int id =m.idMessage;
-	unsigned char ip[4];
-	memcpy(ip, &direccionForanea.sin_addr.s_addr, 4);
-	string ip1 = to_string(ip[0]);
-	string ip2 = to_string(ip[1]);
-	string ip3 = to_string(ip[2]);
-	string ip4 = to_string(ip[3]);
-	ip1.append(".");
-	ip1.append(ip2);
-	ip1.append(".");
-	ip1.append(ip3);
-	ip1.append(".");
-	ip1.append(ip4);
-	char dirIp[16];
-	cout<<"id mensaje: "<<id<<endl;
-	strcpy(dirIp, ip1.c_str());
-	p.inicializaIp(dirIp);
-	p.inicializaDatos(m.arguments);
-	p.inicializaPuerto(direccionForanea.sin_port);
-	return rec;
+	if(rec == -1){
+		return rec;
+	}
+
+	int id = 0;
+    struct mensaje* m = (struct mensaje*) p.obtieneDatos();
+    memcpy(&id, &m->idMessage, 4);
+    printf("\nLastMessage: %u SMS->idMessage: %d", lastMessage, id);
+
+    if(id < lastMessage){
+    	cout << "\nPaquete repetido. Desechando.." << endl;
+        return -1;
+    }
+    else {
+    	unsigned char ip[4];
+		memcpy(ip, &direccionForanea.sin_addr.s_addr, 4);
+		string ip1 = to_string(ip[0]);
+		string ip2 = to_string(ip[1]);
+		string ip3 = to_string(ip[2]);
+		string ip4 = to_string(ip[3]);
+		ip1.append(".");
+		ip1.append(ip2);
+		ip1.append(".");
+		ip1.append(ip3);
+		ip1.append(".");
+		ip1.append(ip4);
+		char dirIp[16];
+		strcpy(dirIp, ip1.c_str());
+		p.inicializaIp(dirIp);
+		p.inicializaDatos((char*)&m->arguments);
+		p.inicializaPuerto(direccionForanea.sin_port);
+		lastMessage++;
+		return rec;
+    }
 }
 
 int SocketMulticast::envia(PaqueteDatagrama &p, unsigned char ttl){
@@ -94,16 +102,16 @@ int SocketMulticast::envia(PaqueteDatagrama &p, unsigned char ttl){
 }
 
 int SocketMulticast::enviaConfiable(PaqueteDatagrama &p, unsigned char ttl, int num_receptores){
-	lastmessage++;
-	mensaje m;
-	int n2;
-	memcpy(&m.arguments,p.obtieneDatos(),p.obtieneLongitud());
-	memcpy(&m.idMessage,&lastmessage,4);
+	contMessage++;
+	struct mensaje m;
+	m.idMessage = contMessage;
+	memcpy(m.arguments, p.obtieneDatos(), 4);
+	printf("\nidMessage: %d\n", contMessage);
 	setsockopt(s, IPPROTO_IP, IP_MULTICAST_TTL, (void*)&ttl, sizeof(ttl));
     direccionForanea.sin_family = PF_INET;
 	direccionForanea.sin_addr.s_addr = inet_addr(p.obtieneDireccion());
 	direccionForanea.sin_port = htons(p.obtienePuerto());
-	return sendto(s, (char *)p.obtieneDatos(), p.obtieneLongitud() * sizeof(char), 0, (struct sockaddr *)&direccionForanea, sizeof(direccionForanea));
+	return sendto(s, (char *)&m, sizeof(m), 0, (struct sockaddr *)&direccionForanea, sizeof(direccionForanea));
 }
 
 void SocketMulticast::unirseGrupo(char *multicastIP){

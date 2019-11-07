@@ -12,6 +12,8 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include <unistd.h>
+#include "mensaje.h"
+#include "SocketDatagrama.h"
 using namespace std;
 
 class SocketMulticast{
@@ -29,7 +31,9 @@ class SocketMulticast{
         struct sockaddr_in direccionLocal;
         struct sockaddr_in direccionForanea;
         struct ip_mreq multicast;
-        int lastmessage;
+        int contMessage;
+        int lastMessage;
         int s; //ID socket
+        SocketDatagrama *ack; //Acuse
 };
 #endif

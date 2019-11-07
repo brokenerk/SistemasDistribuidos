@@ -1,5 +1,4 @@
 #include "SocketMulticast.h"
-#include "SocketDatagrama.h"
 
 int main(int argc, char *argv[])
 {
@@ -8,18 +7,18 @@ int main(int argc, char *argv[])
         exit(0);
     }
     SocketMulticast sm = SocketMulticast(3030);
-    PaqueteDatagrama p = PaqueteDatagrama(4);
+    PaqueteDatagrama p = PaqueteDatagrama(sizeof(struct mensaje*));
     sm.unirseGrupo(argv[1]);
     cout << "Servidor iniciado....\n";
     int nbd[1];
     nbd[0] = 0;
     SocketDatagrama s = SocketDatagrama(0);
     while (true) {
-        if(sm.recibeConfiable(p)) {
+        if(sm.recibeConfiable(p) != -1) {
             int n = 0;
-            memcpy(&n , p.obtieneDatos(), 4);
+            memcpy(&n, p.obtieneDatos(), 4);
             nbd[0] = nbd[0] + n;
-            printf("\nRecibido: %d \nNBD: %d\n", n, nbd[0]);
+            printf("\nRecibido: %d \nNBD: %d\n\n", n, nbd[0]);
             PaqueteDatagrama respuesta = PaqueteDatagrama(4);
             respuesta.inicializaIp(p.obtieneDireccion());
             respuesta.inicializaDatos((char*)nbd);

@@ -1,4 +1,4 @@
-#define TAM_MAX_DATA 65000
+#define TAM_MAX_DATA 4000
 // Definicion del formato de mensaje
 struct mensaje{
 	int idMessage;
