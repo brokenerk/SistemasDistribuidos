@@ -17,21 +17,33 @@ int main(int argc, char *argv[])
 
 	while (cont < n)
 	{
+		cout << "el cont" << cont<< endl;
 		int arr = 1 + rand() % 9;
+		
     	PaqueteDatagrama p = PaqueteDatagrama((char*)&arr, sizeof(struct mensaje), argv[1], 3030);
-    	if((sm.enviaConfiable(p, 1, 1)) > 0) {
+    	int enviar= sm.enviaConfiable(p, 1, 2);
+		int intentos=0;
+		while(enviar < 0 && intentos<7) {
+			enviar= sm.enviaConfiable(p, 1, 2);
+			intentos++;
+		}
+
 	    	PaqueteDatagrama respuesta = PaqueteDatagrama(4);
 	        s.recibeTimeout(respuesta, 2, 500);
 	        memcpy(&res, respuesta.obtieneDatos(), 4);
 	        cuenta = cuenta + arr;
 			if (cuenta != res)
 			{
-				printf("Num: %d\nRespuesta: %d \nOriginal: %d\n\n", arr, res, cuenta);
-				exit(0);
+				printf("Num: %d\nRespuesta: %d \nOriginal: sali %d\n\n", arr, res, cuenta);
+				
+			
 			}
 			printf("Num: %d\nRespuesta: %d \nOriginal: %d\n\n", arr, res, cuenta);
-		}
+		
+		
+		
 	    cont++;
 	}
+	cout << cont<< endl;
 	return 0;
 }

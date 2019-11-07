@@ -66,8 +66,28 @@ int SocketMulticast::recibeConfiable(PaqueteDatagrama &p){
     memcpy(&id, &m->idMessage, 4);
     printf("\nLastMessage: %u SMS->idMessage: %d", lastMessage, id);
 
-    if(id <= lastMessage){
+    if(id <lastMessage){
+		unsigned char ip[4];
+		memcpy(ip, &direccionForanea.sin_addr.s_addr, 4);
+		string ip1 = to_string(ip[0]);
+		string ip2 = to_string(ip[1]);
+		string ip3 = to_string(ip[2]);
+		string ip4 = to_string(ip[3]);
+		ip1.append(".");
+		ip1.append(ip2);
+		ip1.append(".");
+		ip1.append(ip3);
+		ip1.append(".");
+		ip1.append(ip4);
+		char dirIp[16];
+		strcpy(dirIp, ip1.c_str());
     	cout << "\nPaquete repetido. Desechando.." << endl;
+		SocketDatagrama *s_ack = new SocketDatagrama(0);
+		int resp_ack = 1;
+		PaqueteDatagrama p_resp = PaqueteDatagrama((char*)&resp_ack, 4, dirIp, 7070);
+		s_ack->envia(p_resp);
+		cout<< "acuse enviado" <<endl;
+		s_ack->~SocketDatagrama();
         return -1;
     }
     else {
@@ -93,6 +113,7 @@ int SocketMulticast::recibeConfiable(PaqueteDatagrama &p){
 		int resp_ack = 1;
 		PaqueteDatagrama p_resp = PaqueteDatagrama((char*)&resp_ack, 4, dirIp, 7070);
 		s_ack->envia(p_resp);
+		cout<< "acuse enviado" <<endl;
 		s_ack->~SocketDatagrama();
 		return rec;
     }
@@ -118,16 +139,24 @@ int SocketMulticast::enviaConfiable(PaqueteDatagrama &p, unsigned char ttl, int 
 	direccionForanea.sin_port = htons(p.obtienePuerto());
 	int resp = sendto(s, (char *)&m, sizeof(m), 0, (struct sockaddr *)&direccionForanea, sizeof(direccionForanea));
 
-	SocketDatagrama *s_ack = new SocketDatagrama(7070);
-	PaqueteDatagrama ack = PaqueteDatagrama(4);
+	
 	int cont = 0;
 	while(cont < num_receptores) {
-		if(s_ack->recibeTimeout(ack, 2, 500) == -1){
-			resp = sendto(s, (char *)&m, sizeof(m), 0, (struct sockaddr *)&direccionForanea, sizeof(direccionForanea));
+		cout<< num_receptores<<endl;
+		SocketDatagrama *s_ack = new SocketDatagrama(7070);
+	PaqueteDatagrama ack = PaqueteDatagrama(4);
+		
+		int resp_ack =s_ack->recibeTimeout(ack,2,500);
+		if(resp_ack==-1)
+		{
+			s_ack->~SocketDatagrama();
+			return resp_ack;
 		}
 		cont++;
-	}
+cout<<"llego" <<endl;
 	s_ack->~SocketDatagrama();
+	}
+
 	return resp;
 }
 
