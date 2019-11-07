@@ -2,48 +2,54 @@
 
 int main(int argc, char *argv[])
 {
-	if (argc != 3)
+	if (argc != 4)
 	{
-		printf("Forma de uso: %s ip_servidor n\n", argv[0]);
+		printf("Forma de uso: %s ip_emisor n num_receptores\n", argv[0]);
 		exit(0);
 	}
 	srand(time(NULL));
 	int n = atoi(argv[2]);
 	int cont = 0;
-	int res = 0;
 	int cuenta = 0;
+	int num_receptores = atoi(argv[3]);
 	SocketDatagrama s = SocketDatagrama(7200);
 	SocketMulticast sm = SocketMulticast(0);
 
 	while (cont < n)
 	{
-		cout << "el cont" << cont<< endl;
 		int arr = 1 + rand() % 9;
-		
+		cuenta = cuenta + arr;
     	PaqueteDatagrama p = PaqueteDatagrama((char*)&arr, sizeof(struct mensaje), argv[1], 3030);
-    	int enviar= sm.enviaConfiable(p, 1, 2);
-		int intentos=0;
-		while(enviar < 0 && intentos<7) {
-			enviar= sm.enviaConfiable(p, 1, 2);
+    	int enviar = sm.enviaConfiable(p, 1, num_receptores);
+    	int intentos = 1;
+
+		while(enviar < 0 && intentos < 7) {
+			cout << "Reintentando" << endl;
+			enviar = sm.enviaConfiable(p, 1, num_receptores);
 			intentos++;
 		}
 
-	    	PaqueteDatagrama respuesta = PaqueteDatagrama(4);
-	        s.recibeTimeout(respuesta, 2, 500);
+		if(intentos == 7){
+			cout << "Algun receptor no da respuesta" << endl;
+			exit(0);
+		}
+		
+		int cont2 = 0;
+		printf("Num: %d\nOriginal: %d\n", arr, cuenta);
+		while(cont2 < num_receptores) {
+			PaqueteDatagrama respuesta = PaqueteDatagrama(4);
+	        s.recibeTimeout(respuesta, 1, 500);
+	        int res = 0;
 	        memcpy(&res, respuesta.obtieneDatos(), 4);
-	        cuenta = cuenta + arr;
 			if (cuenta != res)
 			{
-				printf("Num: %d\nRespuesta: %d \nOriginal: sali %d\n\n", arr, res, cuenta);
-				
-			
+				printf("Respuesta receptor %d: %d\n", cont2 + 1, res);
+				exit(0);
 			}
-			printf("Num: %d\nRespuesta: %d \nOriginal: %d\n\n", arr, res, cuenta);
-		
-		
-		
+			printf("Respuesta receptor %d: %d\n", cont2 + 1, res);
+			cont2++;
+		}
 	    cont++;
 	}
-	cout << cont<< endl;
 	return 0;
 }

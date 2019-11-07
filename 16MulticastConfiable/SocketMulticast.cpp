@@ -3,7 +3,7 @@
 using namespace std;
 
 SocketMulticast::SocketMulticast(int pto){
-	contMessage = 0;
+	contMessage = 1;
 	lastMessage = 0;
     bzero((char *)&direccionForanea, sizeof(direccionForanea));
 	bzero((char *)&direccionLocal, sizeof(direccionLocal));
@@ -55,68 +55,48 @@ int SocketMulticast::recibe(PaqueteDatagrama &p){
 }
 
 int SocketMulticast::recibeConfiable(PaqueteDatagrama &p){
-    unsigned int len = sizeof(direccionForanea);
+	unsigned int len = sizeof(direccionForanea);
 	int rec = recvfrom(s, (char *)p.obtieneDatos(), p.obtieneLongitud() * sizeof(char), 0, (struct sockaddr *)&direccionForanea, &len);
 	if(rec == -1){
 		return rec;
 	}
 
-	int id = 0;
-    struct mensaje* m = (struct mensaje*) p.obtieneDatos();
-    memcpy(&id, &m->idMessage, 4);
-    printf("\nLastMessage: %u SMS->idMessage: %d", lastMessage, id);
+	unsigned char ip[4];
+	memcpy(ip, &direccionForanea.sin_addr.s_addr, 4);
+	string ip1 = to_string(ip[0]);
+	string ip2 = to_string(ip[1]);
+	string ip3 = to_string(ip[2]);
+	string ip4 = to_string(ip[3]);
+	ip1.append(".");
+	ip1.append(ip2);
+	ip1.append(".");
+	ip1.append(ip3);
+	ip1.append(".");
+	ip1.append(ip4);
+	char dirIp[16];
+	strcpy(dirIp, ip1.c_str());
 
-    if(id <lastMessage){
-		unsigned char ip[4];
-		memcpy(ip, &direccionForanea.sin_addr.s_addr, 4);
-		string ip1 = to_string(ip[0]);
-		string ip2 = to_string(ip[1]);
-		string ip3 = to_string(ip[2]);
-		string ip4 = to_string(ip[3]);
-		ip1.append(".");
-		ip1.append(ip2);
-		ip1.append(".");
-		ip1.append(ip3);
-		ip1.append(".");
-		ip1.append(ip4);
-		char dirIp[16];
-		strcpy(dirIp, ip1.c_str());
-    	cout << "\nPaquete repetido. Desechando.." << endl;
-		SocketDatagrama *s_ack = new SocketDatagrama(0);
-		int resp_ack = 1;
-		PaqueteDatagrama p_resp = PaqueteDatagrama((char*)&resp_ack, 4, dirIp, 7070);
-		s_ack->envia(p_resp);
-		cout<< "acuse enviado" <<endl;
-		s_ack->~SocketDatagrama();
-        return -1;
-    }
-    else {
-    	unsigned char ip[4];
-		memcpy(ip, &direccionForanea.sin_addr.s_addr, 4);
-		string ip1 = to_string(ip[0]);
-		string ip2 = to_string(ip[1]);
-		string ip3 = to_string(ip[2]);
-		string ip4 = to_string(ip[3]);
-		ip1.append(".");
-		ip1.append(ip2);
-		ip1.append(".");
-		ip1.append(ip3);
-		ip1.append(".");
-		ip1.append(ip4);
-		char dirIp[16];
-		strcpy(dirIp, ip1.c_str());
+	int id = 0;
+	struct mensaje* m = (struct mensaje*) p.obtieneDatos();
+	memcpy(&id, &m->idMessage, 4);
+	printf("\nLastMessage: %u SMS->idMessage: %d\n", lastMessage, id);
+	SocketDatagrama *s_ack = new SocketDatagrama(0);
+	PaqueteDatagrama p_resp = PaqueteDatagrama((char*)&id, 4, dirIp, 7070);
+	s_ack->envia(p_resp);
+	cout<< "Acuse enviado" << endl;
+	s_ack->~SocketDatagrama();
+
+	if(id <= lastMessage){
+		cout << "Paquete repetido. Desechando.." << endl;
+		return -1;
+	}
+	else {
 		p.inicializaIp(dirIp);
 		p.inicializaDatos((char*)&m->arguments);
 		p.inicializaPuerto(direccionForanea.sin_port);
 		lastMessage++;
-		SocketDatagrama *s_ack = new SocketDatagrama(0);
-		int resp_ack = 1;
-		PaqueteDatagrama p_resp = PaqueteDatagrama((char*)&resp_ack, 4, dirIp, 7070);
-		s_ack->envia(p_resp);
-		cout<< "acuse enviado" <<endl;
-		s_ack->~SocketDatagrama();
 		return rec;
-    }
+	}
 }
 
 int SocketMulticast::envia(PaqueteDatagrama &p, unsigned char ttl){
@@ -128,35 +108,33 @@ int SocketMulticast::envia(PaqueteDatagrama &p, unsigned char ttl){
 }
 
 int SocketMulticast::enviaConfiable(PaqueteDatagrama &p, unsigned char ttl, int num_receptores){
-	contMessage++;
 	struct mensaje m;
 	m.idMessage = contMessage;
 	memcpy(m.arguments, p.obtieneDatos(), 4);
-	printf("\nidMessage: %d\n", contMessage);
+	printf("\n\nidMessage: %d\n", contMessage);
 	setsockopt(s, IPPROTO_IP, IP_MULTICAST_TTL, (void*)&ttl, sizeof(ttl));
     direccionForanea.sin_family = PF_INET;
 	direccionForanea.sin_addr.s_addr = inet_addr(p.obtieneDireccion());
 	direccionForanea.sin_port = htons(p.obtienePuerto());
 	int resp = sendto(s, (char *)&m, sizeof(m), 0, (struct sockaddr *)&direccionForanea, sizeof(direccionForanea));
 
-	
 	int cont = 0;
-	while(cont < num_receptores) {
-		cout<< num_receptores<<endl;
-		SocketDatagrama *s_ack = new SocketDatagrama(7070);
+	SocketDatagrama *s_ack = new SocketDatagrama(7070);
 	PaqueteDatagrama ack = PaqueteDatagrama(4);
-		
-		int resp_ack =s_ack->recibeTimeout(ack,2,500);
-		if(resp_ack==-1)
-		{
+
+	while(cont < num_receptores) {
+		int resp_ack = s_ack->recibeTimeout(ack, 1, 500);
+		if(resp_ack == -1) {
+			cout << "Acuse no recibido. Paquete perdido.." << endl;
 			s_ack->~SocketDatagrama();
-			return resp_ack;
+			return -1;
 		}
 		cont++;
-cout<<"llego" <<endl;
-	s_ack->~SocketDatagrama();
+		cout << "Acuse recibido" << endl;
 	}
 
+	s_ack->~SocketDatagrama();
+	contMessage++;
 	return resp;
 }
 
