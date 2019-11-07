@@ -66,7 +66,7 @@ int SocketMulticast::recibeConfiable(PaqueteDatagrama &p){
     memcpy(&id, &m->idMessage, 4);
     printf("\nLastMessage: %u SMS->idMessage: %d", lastMessage, id);
 
-    if(id < lastMessage){
+    if(id <= lastMessage){
     	cout << "\nPaquete repetido. Desechando.." << endl;
         return -1;
     }
@@ -89,6 +89,11 @@ int SocketMulticast::recibeConfiable(PaqueteDatagrama &p){
 		p.inicializaDatos((char*)&m->arguments);
 		p.inicializaPuerto(direccionForanea.sin_port);
 		lastMessage++;
+		SocketDatagrama *s_ack = new SocketDatagrama(0);
+		int resp_ack = 1;
+		PaqueteDatagrama p_resp = PaqueteDatagrama((char*)&resp_ack, 4, dirIp, 7070);
+		s_ack->envia(p_resp);
+		s_ack->~SocketDatagrama();
 		return rec;
     }
 }
@@ -111,7 +116,19 @@ int SocketMulticast::enviaConfiable(PaqueteDatagrama &p, unsigned char ttl, int 
     direccionForanea.sin_family = PF_INET;
 	direccionForanea.sin_addr.s_addr = inet_addr(p.obtieneDireccion());
 	direccionForanea.sin_port = htons(p.obtienePuerto());
-	return sendto(s, (char *)&m, sizeof(m), 0, (struct sockaddr *)&direccionForanea, sizeof(direccionForanea));
+	int resp = sendto(s, (char *)&m, sizeof(m), 0, (struct sockaddr *)&direccionForanea, sizeof(direccionForanea));
+
+	SocketDatagrama *s_ack = new SocketDatagrama(7070);
+	PaqueteDatagrama ack = PaqueteDatagrama(4);
+	int cont = 0;
+	while(cont < num_receptores) {
+		if(s_ack->recibeTimeout(ack, 2, 500) == -1){
+			resp = sendto(s, (char *)&m, sizeof(m), 0, (struct sockaddr *)&direccionForanea, sizeof(direccionForanea));
+		}
+		cont++;
+	}
+	s_ack->~SocketDatagrama();
+	return resp;
 }
 
 void SocketMulticast::unirseGrupo(char *multicastIP){
