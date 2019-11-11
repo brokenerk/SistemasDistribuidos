@@ -38,15 +38,17 @@ int main(int argc, char *argv[])
 		printf("Num: %d\nOriginal: %d\n", arr, cuenta);
 		while(cont2 < num_receptores) {
 			PaqueteDatagrama respuesta = PaqueteDatagrama(4);
-	        s.recibeTimeout(respuesta, 1, 500);
+	        s.recibeTimeout(respuesta, 5, 500);
 	        int res = 0;
 	        memcpy(&res, respuesta.obtieneDatos(), 4);
 			if (cuenta != res)
 			{
-				printf("Respuesta receptor %d: %d\n", cont2 + 1, res);
-				exit(0);
+				printf("Respuesta receptor %d: %d  ip: ", cont2 + 1, res);
+					cout<< respuesta.obtieneDireccion()<<endl;
+				//exit(0);
 			}
-			printf("Respuesta receptor %d: %d\n", cont2 + 1, res);
+			printf("Respuesta receptor %d: %d   ip:", cont2 + 1, res);
+				cout<< respuesta.obtieneDireccion()<<endl;
 			cont2++;
 		}
 	    cont++;

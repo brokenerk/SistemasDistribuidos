@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
             respuesta.inicializaDatos((char*)nbd);
             respuesta.inicializaPuerto(7200);
             s.envia(respuesta);
-        }
+            cout<<"enviado"<<endl;
+                    }
     }
 }
