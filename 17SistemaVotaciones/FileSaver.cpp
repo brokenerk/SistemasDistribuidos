@@ -2,22 +2,12 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-
-FileSaver::FileSaver(string ruta){
+void FileSaver::saveFile(string ruta,vector<PaqueteDatagrama> paquetes){
     std::ofstream file1(ruta, std::ofstream::out | std::ofstream::trunc);
     file1.close();
-    file.open(ruta);
-}
-
-void FileSaver::saveFile(string info){
-    if(file){
-        info=info+"\n";
-        file.write(info.c_str(),32);
-    }else{
-        cerr<<"open file error\n";
+    std::ofstream file(ruta, std::ios::out | std::ios::binary | std::ios::app);
+    for(int i = 0;i<paquetes.size();i++){
+        file.write(paquetes[i].obtieneDatos(),paquetes[i].obtieneLongitud());
     }
-}
-
-void FileSaver::closeFile(){
     file.close();
 }

@@ -124,7 +124,6 @@ int SocketMulticast::enviaConfiable(PaqueteDatagrama &p, unsigned char ttl, int 
 
 	while(cont < num_receptores) {
 		int resp_ack = s_ack->recibeTimeout(ack, 2, 500);
-	//	cout<<"el error" << resp_ack<<endl;
 		if(resp_ack == -1) {
 			cout << "Acuse no recibido. Paquete perdido.." << endl;
 			s_ack->~SocketDatagrama();

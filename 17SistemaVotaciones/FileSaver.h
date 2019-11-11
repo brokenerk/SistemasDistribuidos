@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include "PaqueteDatagrama.h"
 #include <vector>
 using namespace std;
 #if !defined(FILESAVER_H_)
@@ -8,10 +9,8 @@ using namespace std;
 class FileSaver
 {
 private:
-    std::ofstream file;
+    /* data */
 public:
-    void saveFile(string);
-    FileSaver(string ruta);
-    void closeFile();
+    void saveFile(string ruta,vector<PaqueteDatagrama> paquetes);
 };
 #endif // FILESAVER_H_
