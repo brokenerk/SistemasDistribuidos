@@ -36,7 +36,6 @@ int main(int argc, char *argv[])
 		
 		int cont2 = 0;
 		printf("Num: %d\nOriginal: %d\n", arr, cuenta);
-		/*
 		while(cont2 < num_receptores) {
 			PaqueteDatagrama respuesta = PaqueteDatagrama(4);
 	        s.recibeTimeout(respuesta, 5, 500);
@@ -52,7 +51,6 @@ int main(int argc, char *argv[])
 				cout<< respuesta.obtieneDireccion()<<endl;
 			cont2++;
 		}
-		*/
 	    cont++;
 	}
 	return 0;

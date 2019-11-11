@@ -19,14 +19,12 @@ int main(int argc, char *argv[])
             memcpy(&n, p.obtieneDatos(), 4);
             nbd[0] = nbd[0] + n;
             printf("Recibido: %d \nNBD: %d\n\n", n, nbd[0]);
-            /*
             PaqueteDatagrama respuesta = PaqueteDatagrama(4);
             respuesta.inicializaIp(p.obtieneDireccion());
             respuesta.inicializaDatos((char*)nbd);
             respuesta.inicializaPuerto(7200);
             s.envia(respuesta);
             cout<<"enviado"<<endl;
-            */
-        }
+                    }
     }
 }
