@@ -5,7 +5,6 @@
 #include <fstream>
 
 using namespace std;
-int randNum();
 int main(int argc, char *argv[])
 {
 	if (argc != 3)

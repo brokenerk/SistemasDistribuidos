@@ -10,6 +10,7 @@
 using namespace std; 
 
 struct registro GenerarVoto(char * telefono){
+	srand(time(NULL));
 	char curp[19], t[11], sexo;
 	int i, n, destino, j, opcion, inicial, elemento;
 	struct registro reg1;
@@ -38,8 +39,7 @@ int main(int argc, char *argv[]){
 		printf("Forma de uso: %s telefono ip_servidor\n", argv[0]);
 		exit(0);
 	}
-	srand(time(NULL));
-	struct registro r = GenerarVoto(argv[1]);
+	registro r = GenerarVoto(argv[1]);
 	Solicitud s;
 	timeval res;
 	memcpy(&res, s.doOperation(argv[2], 7200, 1,(char *)&r),sizeof(timeval));
