@@ -12,5 +12,5 @@ struct registro{
     bool operator<(const registro & other) const
     {
         return atoi(celular) < atoi(other.celular);
-    }
+    }//
 };
