@@ -9,17 +9,10 @@
 #include <unistd.h>
 #include <algorithm>    // std::binary_search, std::sort
 using namespace std;
-
-bool exist (registro r1, registro r2) {
-    if(string(r1.celular)==string(r2.celular))
-        return false;
-    return true;
-}
-
 int main()
 {
     Respuesta resp(7200);
-    vector <struct registro> registros;
+    vector <int> registros;
     cout << "Servidor iniciado....\n";
     std::ofstream file1("registros.txt", std::ofstream::out | std::ofstream::trunc);
     file1.close();
@@ -30,20 +23,16 @@ int main()
             output.open("registros.txt", ios::out | ios::app );
             struct registro r;
             memcpy(&r, &msj->arguments, sizeof(struct registro));
-            sort (registros.begin(), registros.end());
-
             timeval actual;
             actual.tv_sec = 0;
             actual.tv_usec = 0;
-
-            if(!binary_search(registros.begin(), registros.end(), r, exist)){
-                registros.push_back(r);
+            if(!binary_search(registros.begin(), registros.end(),atoi(r.celular))){
+                registros.push_back(atoi(r.celular));
+                sort(registros.begin(), registros.end());
                 gettimeofday(&actual,NULL);
                 string regs = r.toString();
-
                 cout << actual.tv_sec << endl;
                 cout << actual.tv_usec << endl;
-
                 regs += to_string(actual.tv_sec) + to_string(actual.tv_usec);
                 output.write(regs.c_str(), regs.length());
                 output.write("\n",1);
