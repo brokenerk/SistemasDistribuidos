@@ -1,4 +1,4 @@
-run: servidor.cpp servidorB.cpp servidorC.cpp Respuesta.o SocketDatagrama.o PaqueteDatagrama.o
+run: servidor.cpp Respuesta.o SocketDatagrama.o PaqueteDatagrama.o
 	g++ servidor.cpp Respuesta.o SocketDatagrama.o PaqueteDatagrama.o -o server
 	
 Respuesta.o: Respuesta.cpp SocketDatagrama.o PaqueteDatagrama.o Respuesta.h
