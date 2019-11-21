@@ -1,0 +1,7 @@
+1000 - 2 PC
+Binary: 28 segs
+Tree: 21 segs
+
+10000 - 1 PC
+Binary: 48 segs
+Tree: 2 seg
