@@ -1,0 +1,35 @@
+¿En qué ayuda la replicación de la información en un sistema distribuido?
+A. Disponibilidad, rendimiento y tolerancia a fallos
+B. Ahorro de memoria en disco
+C. Bajo uso de CPU y cache
+D. Menor uso de ancho de banda
+
+La replicación es transparente cuando...
+A. El usuario desconoce que su información esta replicada
+B. El acceso a la información es restringido
+C. Hay protocolos de seguridad extendidos
+D. El usuario conoce las réplicas de su información
+
+¿De que se encarga un gestor de réplicas?
+A. Gestionar las réplicas
+B. Mantener las réplicas aisladas
+C. Modelar la infraestructura de replicación
+D. Gestionar los meta datos de cada réplica
+
+Tipo se ordenamiento de operaciones donde un frontal que pide información a r1 y después a r2 debe haber manipulado antes a r1 para operar r2.
+A. Ordenamiento FIFO
+B. Ordenamiento causal
+C. Ordenamiento total
+D. Ordenamiento paralelo
+
+Requisitos para la entrega de vistas:
+A. Orden, integridad y no trivialidad
+B. Disponibilidad
+C. Integridad y verificabilidad
+D. Seguridad y tiempo
+
+Garantías de comunicación de vistas síncronas:
+A. Acuerdo e integridad
+B. Validez y velocidad
+C. Acuerdo, validez e integridad
+D. Integridad y validez

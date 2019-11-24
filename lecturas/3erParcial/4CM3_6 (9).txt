@@ -1,0 +1,29 @@
+¿Cuál es el principal problema con el esquema de multitransmisión confiable más simple?
+A. Si existen N destinatarios el remitente debe estar preparado para aceptar por lo menos N acuses de recibido y esto puede provocar implosión de retroalimentación
+B. No todos los paquetes llegan a los clientes
+C. Los mensajes no llegan en orden 
+D. Los mensajes pueden llegar a personas que no pertenecen al grupo
+
+¿Qué es la implosión de retroalimentación?
+A. Cuando el remitente se ve abrumado por los mensaje de retroalimentación
+B. Cuando el remitente no recibe suficientes mensaje de retroalimentación
+C. Cuando el cliente no recibe mensaje de retroalimentación 
+D. Cuando se sobrecarga el búfer del historial  
+
+¿Cuál de los siguientes es un error del control de retroalimentación no jerárquico?
+A. La multitransmisión de la retroalimentación también interrumpe aquellos procesos que recibieron el mensaje exitosamente
+B. Si existen N destinatarios el remitente debe estar preparado para aceptar por lo menos N acuses de recibido y esto puede provocar implosión de retroalimentación
+C. No todos los paquetes llegan a los clientes
+D. Los mensajes no llegan en orden 
+
+¿Cuál es el problema de multitransmisión atómica?
+A. Cuando se requiere que un mensaje sea entregado a todos los procesos o a ninguno y que los mensajes lleguen en el mismo orden
+B. Cuando se sobrecarga el búfer del historial
+C. Cuando se requiere que los mensajes lleguen en el orden correcto 
+D. Identificar procesos defectuosos 
+
+¿Cuál de las siguientes versiones de multitransmisión no cuenta con ordenamiento de mensajes?
+A. Multitransmisión confiable
+B. Multitransmisión FIFO
+C. Multitransmisión casual
+D. Multitransmisión atómica FIFO

@@ -1,0 +1,29 @@
+¿Cuáles son los dos métodos de replicación de objetos compartidos?
+A. Pasiva y activa
+B. Primario y respaldo
+C. Síncrono y asíncrono
+D. Linealizable y consistente
+
+¿Cuántos gestores de réplica necesita un sistema de replicación pasiva?
+A. f + 1
+B. f
+C. 1
+D. 2f + 1
+
+¿Cuántos gestores de réplica necesita como mínimo un sistema de replicación activa?
+A. 2f + 1
+B. f
+C. 1
+D. f + 1
+
+¿Cuál es una desventaja de la replicación pasiva?
+A. Producir sobrecargas relativamente grandes
+B. Algunas operaciones pueden conmutarse
+C. Se pierde la linealizabilidad
+D. Se pierde la consistencia secuencial
+
+¿Qué implica el que un servicio sea linealizable?
+A. Que es secuencialmente consistente
+B. El entrelazamiento de operaciones individuales es transaccional
+C. No se necesita un control de concurrencia
+D. El orden de las peticiones de cada cliente no importa
