@@ -87,19 +87,19 @@ int main(int argc, char *argv[]){
 		int lastN = atoi(lastc.c_str());
 
 		if(0 <= lastN and lastN <= 3){
-			enviar(s1Ip, s1Port, r, s);
-			//thread t(enviar, s1Ip, s1Port, r);
-			//t.detach();
+			//enviar(s1Ip, s1Port, r, s);
+			thread t(enviar, s1Ip, s1Port, r, s);
+			t.detach();
 		}
 		else if(4 <= lastN and lastN <= 6){
-			enviar(s2Ip, s2Port, r, s);
-			//thread t(enviar, s2Ip, s2Port, r);
-			//t.detach();
+			//enviar(s2Ip, s2Port, r, s);
+			thread t(enviar, s2Ip, s2Port, r, s);
+			t.detach();
 		}
 		else if(7 <= lastN and lastN <= 9){
-			enviar(s3Ip, s3Port, r, s);
-			//thread t(enviar, s3Ip, s3Port, r);
-			//t.detach();
+			//enviar(s3Ip, s3Port, r, s);
+			thread t(enviar, s3Ip, s3Port, r, s);
+			t.detach();
 		}
 		cont++;
 	}
