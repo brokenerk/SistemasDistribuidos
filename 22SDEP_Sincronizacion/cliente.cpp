@@ -101,6 +101,7 @@ int main(int argc, char *argv[]){
 			thread t(enviar, s3Ip, s3Port, r, s);
 			t.detach();
 		}
+		usleep(1000);
 		cont++;
 	}
 	cout << cont << endl;
