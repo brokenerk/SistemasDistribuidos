@@ -1,0 +1,30 @@
+¿Cuál es el principal inconveniente de las soluciones basadas en token? 
+A. Cuando se pierde el token es necesario iniciar un intrincado proceso distribuido para garantizar la creación de un nuevo token
+B. Se necesitan permisos para acceder a los recursos 
+C. Hay muchos tokes disponibles 
+D. No todos tienen la posibilidad de acceder a los recursos
+
+¿Cuál es uno de los problemas del algoritmo de votación que puede ejecutarse con un sistema basado DHT? 
+A. Si muchos nodos desean acceder al mismo recurso, su uso decaerá rápidamente
+B. Hace que la solución original centralizada sea menos vulnerable ante las fallas de un solo coordinador
+C. El recurso se replica n veces 
+D. Cada réplica tiene su propio coordinador 
+
+¿Cuáles son los casos que se deben de distinguir claramente en el algoritmo de Ricart y Agrawala(1981)?
+A. Todas las opciones son correctas
+B. Si el destinatario no accede al recurso y no desea acceder a él, envía un mensaje de OK al remitente
+C. Si el destinatario ya cuenta con el acceso al recurso, simplemente no responde. En vez de eso, coloca la petición en una cola.
+D. Si el receptor también quiere acceder al recurso, pero aún no lo ha hecho, compara el registro de tiempo del mensaje entrante con el del mensaje que ya ha enviado a todos.  
+
+¿En qué consiste el de anillo de token? 
+A. Un anillo lógico se construye con cada proceso asignado a una posición en el anillo, lo que importa es que cada proceso sabe cuál es el siguiente después de él
+B. Es una red de bus sin orden inherente a alguno de los procesos
+C. Consiste en replicar el recurso n veces y tener un n coordinadores de los recursos
+D. Ninguno de los anteriores 
+
+¿En el algoritmo del abusón (Bully) cómo un proceso P celebra una elección? 
+A. Todas las opciones son correctas 
+B. P envía un ELECCIÓN a todos los procesos con números superiores 
+C. Si ningún proceso responde, P gana la elección y se convierte en el coordinador 
+D. Si uno de los procesos superiores responde, toma el mando. El trabajo de P está hecho. 
+
