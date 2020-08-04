@@ -1,0 +1,555 @@
+//Programa 1: Raiz cuadrada con algoritmo Babilonico (main.cpp)
+#include <iostream> 
+using namespace std;
+
+//Algoritmo Babilonico
+double raiz(double x) {
+	double r = x, t = 0.0;
+	while(r != t) {
+		t = r;
+		r = ((x / r) + r) / 2.0;
+	}
+	return r;
+}
+
+int main() {
+	double n = 0.0;
+	cout << "Algoritmo Babilonico" << endl;
+	cout << "Ingrese n: ";
+	cin >> n;
+
+	//Precision 4 decimales
+	cout.setf(ios::fixed);
+	cout.setf(ios::showpoint);
+	cout.precision(4);
+
+	cout << "Raiz de n: ";
+	cout << raiz(n);
+	return 0;
+}
+
+***************************************************************************************************************************************
+//Programa 2: Altura de un edificio (main.cpp)
+#include <iostream> 
+using namespace std;
+const double g = 9.81;
+
+int main() {
+	double tiempo = 0.0;
+	cout << "Altura edificio" << endl;
+	cout << "Ingrese el tiempo: ";
+	cin >> tiempo;
+	//Formula MRUA
+	cout << "Altura = " << (g * tiempo * tiempo) / 2 << " m" << endl;
+}
+
+***************************************************************************************************************************************
+//Programa 3: Tiempo en segundos (main.cpp)
+#include <iostream>
+using namespace std;
+
+int main() {
+	int entrada = 0, minutos = 0, segundos = 0, horas = 0;
+	cout << "Tiempo en segundos" << endl;
+	cout << "Ingresa la cantidad de segundos: ";
+	cin >> entrada;
+
+	//Horas
+	if(entrada >= 3600) {
+		horas = entrada / 3600;
+		entrada = entrada % 3600;
+	}
+	//Minutos
+	if(entrada >= 60) {
+		minutos = entrada / 60;
+		segundos = entrada % 60;
+	}
+	else
+		segundos = entrada; //Segundos
+
+	cout << horas << " horas " << minutos << " minutos " << segundos << " segundos" << endl;
+	return 0;
+}
+
+***************************************************************************************************************************************
+//Programa 4: Temperatura escala - Interfaz (Temperatura.h)
+#ifndef TEMPERATURA_H_
+#define TEMPERATURA_H_
+
+class Temperatura {
+	private:
+		double kelvin;
+	public:
+		Temperatura(double = 273.15);
+		void setTempKelvin(double);
+		void setTempFarenheit(double);
+		void setTempCelsius(double);
+		void mostrarKelvin();
+		void mostrarFarenheit();
+		void mostrarCelsius();
+};
+#endif
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa 4: Temperatura escala - Implementacion (Temperatura.cpp)
+#include "Temperatura.h"
+#include <iostream>
+using namespace std;
+
+Temperatura::Temperatura(double kelvin) {
+    kelvin = kelvin;
+}
+
+void Temperatura::setTempKelvin(double kelvin) {
+	kelvin = kelvin;
+	return;
+}
+
+void Temperatura::setTempFarenheit(double farenheit) {
+	kelvin = (farenheit - 32.0) * 5.0/9.0 + 273.15;
+	return;
+}
+
+void Temperatura::setTempCelsius(double celsius) {
+	kelvin = celsius + 273.15;
+	return;
+}
+
+void Temperatura::mostrarKelvin() {
+	cout << "Temperatura grados Kelvin: " << kelvin << endl;
+	return;
+}
+
+void Temperatura::mostrarFarenheit() {
+	cout << "Temperatura grados Farenheit: " << (kelvin - 273.15) * 9.0/5.0 + 32.0 << endl;
+	return;
+}
+
+void Temperatura::mostrarCelsius() {
+	cout << "Temperatura grados Celsius: " << (kelvin - 273.15) << endl;
+	return;
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa 4: Temperatura escala - Principal (main.cpp)
+#include "Temperatura.h"
+#include <iostream>
+using namespace std;
+
+int main() {
+	Temperatura t;
+	double grados;
+	int op, escala = 1, rep = 1;
+
+	do {
+		cout << "\n\nSeleccione una opcion" << endl;
+		cout << "1.- Ingresar Temperatura" << endl;
+		cout << "2.- Mostrar Temperatura" << endl;
+		cin >> op;
+
+		cout << "\nSelecciona la escala" << endl;
+		cout << "1.- Kelvin" << endl;
+		cout << "2.- Farenheit" << endl;
+		cout << "3.- Celsius" << endl;
+		cin >> escala;
+
+		if(op == 1) {
+			cout << "Ingrese los grados: ";
+			cin >> grados;
+
+			if(escala == 1) {
+				t.setTempKelvin(grados);
+				t.mostrarKelvin();
+			}
+			else if(escala == 2) {
+				t.setTempFarenheit(grados);
+				t.mostrarFarenheit();
+			}
+			else {
+				t.setTempCelsius(grados);
+				t.mostrarCelsius();
+			}
+		}
+		else {
+			if(escala == 1)
+				t.mostrarKelvin();
+			else if(escala == 2)
+				t.mostrarFarenheit();
+			else
+				t.mostrarCelsius();
+		}
+
+		cout << "\nSalir? No = 1 / Si = 0" << endl;
+		cin >> rep;
+	} while(rep == 1);
+	return 0;
+}
+
+***************************************************************************************************************************************
+//Programa 5: Fraccion - Interfaz (Fraccion.h)
+#ifndef FRACCION_H_
+#define FRACCION_H_
+
+class Fraccion {
+	private:
+		int numerador;
+		int denominador;
+	public:
+		Fraccion(int = 1, int = 1);
+		void inicializar(int, int);
+		double calcular();
+		void mostrar();
+		void minExpresion();
+};
+#endif
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa 5: Fraccion - Implementacion (Fraccion.cpp)
+#include "Fraccion.h"
+#include <iostream>
+using namespace std;
+
+Fraccion::Fraccion(int num, int deno) {
+    numerador = num;
+    denominador = deno;
+}
+
+void Fraccion::inicializar(int num, int deno) {
+    numerador = num;
+    denominador = deno;
+    return;
+}
+
+void Fraccion::mostrar() {
+    cout << numerador << "/" << denominador << endl;
+    return;
+}
+
+double Fraccion::calcular() {
+    return numerador * 1.0 / denominador * 1.0;
+}
+
+void Fraccion::minExpresion() {
+    int i = 2;
+    int num = numerador, deno = denominador;
+
+    while(i <= deno && i <= num) {
+        if(num % i == 0 && deno % i == 0) {
+            num = num / i;
+            deno = deno / i;
+        }
+        else 
+            i++;
+    }
+    cout << num << "/" << deno << endl;
+    return;
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa 5: Fraccion - Principal (main.cpp)
+#include "Fraccion.h"
+#include <iostream>
+using namespace std;
+
+int main() {
+	Fraccion f1, f2(10, 2);
+	f1.inicializar(121, 99);
+
+	cout << "Fraccion 1: ";
+	f1.mostrar();
+	cout << "Calcular: " << f1.calcular() << endl;
+	cout << "Min Expresion: ";
+	f1.minExpresion();
+
+	cout << "\nFraccion 2: ";
+	f2.mostrar();
+	cout << "Calcular: " << f2.calcular() << endl;
+	cout << "Min Expresion: ";
+	f2.minExpresion();
+	return 0;
+}
+
+***************************************************************************************************************************************
+//Programa 6: Coordenada - Interfaz (Coordenada.h)
+#ifndef COORDENADA_H_
+#define COORDENADA_H_
+
+class Coordenada {  
+	private:  
+		double x;
+		double y;
+		double z;
+	public:
+		Coordenada(double = 0, double = 0, double = 0);
+		double obtenerX();
+		double obtenerY();
+		double obtenerZ();
+};
+#endif
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa 6: Coordenada - Implementacion (Coordenada.cpp)
+#include "Coordenada.h"
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+Coordenada::Coordenada(double xx, double yy, double zz) : x(xx), y(yy), z(zz) { }
+
+double Coordenada::obtenerX() {
+	return x;
+}
+
+double Coordenada::obtenerY() {
+	return y;
+}
+
+double Coordenada::obtenerZ() {
+	return z;
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa 6: Rectangulo - Interfaz (Rectangulo.h)
+#ifndef RECTANGULO_H_
+#define RECTANGULO_H_
+
+class Rectangulo {
+	private:
+		Coordenada superiorIzq;
+		Coordenada inferiorDer;
+	public: 
+		Rectangulo();
+		Rectangulo(double xSupIzq, double ySupIzq, double xInfDer, double yInfDer);
+		Rectangulo(Coordenada c1, Coordenada c2);
+		void imprimeEsq();
+		Coordenada obtieneSupIzq();
+		Coordenada obtieneInfDer();
+		double obtieneArea();
+};
+#endif
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa 6: Rectangulo - Implementacion (Rectangulo.cpp)
+#include "Coordenada.h"
+#include "Rectangulo.h"
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+Rectangulo::Rectangulo() : superiorIzq(0, 0), inferiorDer(0, 0) { }
+
+Rectangulo::Rectangulo(double xSupIzq, double ySupIzq, double xInfDer, double yInfDer):superiorIzq(xSupIzq, ySupIzq), inferiorDer(xInfDer, yInfDer) { }
+
+Rectangulo::Rectangulo(Coordenada c1, Coordenada c2){
+	superiorIzq = c1;
+	inferiorDer = c2;
+}
+
+void Rectangulo::imprimeEsq() {
+	cout << "Para la esquina superior izquierda.\n";
+	cout << "x = " << superiorIzq.obtenerX() << " y = " << superiorIzq.obtenerY() << endl;
+	cout << "Para la esquina inferior derecha.\n";
+	cout << "x = " << inferiorDer.obtenerX() << " y = " << inferiorDer.obtenerY() << endl;
+	return;
+}
+
+Coordenada Rectangulo::obtieneSupIzq() {
+	return superiorIzq;
+}
+
+Coordenada Rectangulo::obtieneInfDer() {
+	return inferiorDer;
+}
+
+double Rectangulo::obtieneArea() {
+	double alto = superiorIzq.obtenerY() - inferiorDer.obtenerY();
+	double ancho = inferiorDer.obtenerX() - superiorIzq.obtenerX();
+	return alto * ancho;
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa 6: Ortoedro - Interfaz (Ortoedro.h)
+#ifndef ORTOEDRO_H_
+#define ORTOEDRO_H_
+
+class Ortoedro {  
+	private:  
+		Rectangulo caraSup;
+		Rectangulo caraInf;
+		Rectangulo caraIzq;
+		Rectangulo caraDer;
+		Rectangulo caraTras;
+		Rectangulo caraFront;
+	public:
+		Ortoedro();
+		void inicializar(Coordenada c1, Coordenada c2);
+		void obtieneVertices();
+		double obtieneArea();
+		double obtieneVolumen();
+};
+#endif
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa 6: Ortoedro - Implementacion (Ortoedro.cpp)
+#include "Coordenada.h"
+#include "Rectangulo.h"
+#include "Ortoedro.h"
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+Ortoedro::Ortoedro() { 
+	caraSup = Rectangulo();
+	caraInf = Rectangulo();
+	caraIzq = Rectangulo();
+	caraDer = Rectangulo();
+	caraTras = Rectangulo();
+	caraFront = Rectangulo();
+}
+
+void Ortoedro::inicializar(Coordenada vOrigen, Coordenada vLejos) {
+	Coordenada supIzqFront = Coordenada(vOrigen.obtenerX(), vLejos.obtenerY(), 0);
+	Coordenada infDerFront = Coordenada(vLejos.obtenerX(), vOrigen.obtenerY(), 0);
+	caraFront = Rectangulo(supIzqFront, infDerFront);
+	caraTras = Rectangulo(supIzqFront, infDerFront);
+
+	Coordenada supIzqSup = Coordenada(vOrigen.obtenerX(), vLejos.obtenerZ(), 0);
+	Coordenada infDerSup = Coordenada(vLejos.obtenerX(), vOrigen.obtenerZ(), 0);
+	caraSup = Rectangulo(supIzqSup, infDerSup);
+	caraInf = Rectangulo(supIzqSup, infDerSup);
+
+	Coordenada supIzqIzq = Coordenada(vOrigen.obtenerZ(), vLejos.obtenerY(), 0);
+	Coordenada infDerIzq = Coordenada(vLejos.obtenerZ(), vOrigen.obtenerY(), 0);
+	caraIzq = Rectangulo(supIzqIzq, infDerIzq);
+	caraDer = Rectangulo(supIzqIzq, infDerIzq);
+	return;
+}
+
+void Ortoedro::obtieneVertices() {
+	cout << "Para el vertice mas cercano al origen.\n";
+	Coordenada origenX = caraFront.obtieneSupIzq();
+	Coordenada origenY = caraFront.obtieneInfDer();
+	Coordenada origenZ = caraSup.obtieneInfDer();
+	cout << "x = " << origenX.obtenerX() << " y = " << origenY.obtenerY() << " z = " << origenZ.obtenerY() << endl;
+	
+	Coordenada lejosZ = caraSup.obtieneSupIzq();
+	cout << "Para el vertice mas lejano al origen.\n";
+	cout << "x = " << origenY.obtenerX() << " y = " << origenX.obtenerY() << " z = " << lejosZ.obtenerY() << endl;
+	return;
+}
+
+double Ortoedro::obtieneArea() {
+	return caraSup.obtieneArea();
+}
+
+double Ortoedro::obtieneVolumen() {
+	double profundo = caraFront.obtieneSupIzq().obtenerY() - caraFront.obtieneInfDer().obtenerY();
+	return caraSup.obtieneArea() * profundo;
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa 6: Ortoedro - Principal (main.cpp)
+#include "Coordenada.h"
+#include "Rectangulo.h"
+#include "Ortoedro.h"
+#include <iostream>
+using namespace std;
+
+int main() {
+	Ortoedro ortoedro;
+	int origenX, origenY, origenZ, lejosX, lejosY, lejosZ;
+	cout << "Ingrese las coordenadas para el vertice mas cercano al origen:" << endl;
+	cout << "X: ";
+	cin  >> origenX;
+	cout << "Y: ";
+	cin  >> origenY;
+	cout << "Z: ";
+	cin  >> origenZ;
+
+	cout << "Ingrese las coordenadas para el vertice mas lejano al origen:" << endl;
+	cout << "X: ";
+	cin  >> lejosX;
+	cout << "Y: ";
+	cin  >> lejosY;
+	cout << "Z: ";
+	cin  >> lejosZ;
+
+	ortoedro.inicializar(Coordenada(origenX, origenY, origenZ), Coordenada(lejosX, lejosY, lejosZ));
+	cout << "Vertices del ortoedro en un plano cartesiano de tres dimensiones:\n";
+	ortoedro.obtieneVertices();
+	cout << "El area de la superficie del ortoedro es = " << ortoedro.obtieneArea() << endl;
+	cout << "El volumen del ortoedro es = " << ortoedro.obtieneVolumen() << endl;
+	return 0;
+}
+
+***************************************************************************************************************************************
+//Programa 7: Numeros primos - Interfaz (Numero.h)
+#ifndef NUMERO_H_
+#define NUMERO_H_
+
+class Numero {
+	private:
+		int num;
+		bool primo;
+	public:
+		Numero(int = 0, bool = true);
+		int getNum();
+		bool getPrimo();
+		void setPrimo(bool primo);
+};
+#endif
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa 7: Numeros primos - Implementacion (Numero.cpp)
+#include "Numero.h"
+#include <iostream>
+using namespace std;
+
+Numero::Numero(int n, bool prim) : num(n), primo(prim) { }
+
+int Numero::getNum() {
+    return num;
+}
+
+bool Numero::getPrimo() {
+    return primo;
+}
+
+void Numero::setPrimo(bool prim) {
+    primo = prim;
+    return;
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa 7: Numeros primos - Principal (primos.cpp)
+#include "Numero.h"
+#include <vector>
+#include <math.h>
+#include <iostream>
+using namespace std;
+
+vector<Numero> cribaEratostenes(int N) {
+	vector<Numero> numeros;
+	numeros.reserve(N + 1);
+
+	for (int k = 0; k <= N; k++)
+		numeros.push_back(Numero(k, true));
+
+	numeros.at(0).setPrimo(false);
+	numeros.at(1).setPrimo(false);
+
+	for (int i = 2; i <= sqrt(N); i++) {
+		if(numeros.at(i).getPrimo()) {
+			for (int j = i; j <= N / i; j++)
+				numeros.at(i * j).setPrimo(false);
+		}
+	}
+
+	return numeros;
+}
+
+int main() {
+	int N;
+	cout << "\nCriba de Eratostenes" << endl;
+	cout << "Introduce N: ";
+	cin >> N;
+
+	vector<Numero> numeros = cribaEratostenes(N);
+	std::vector<Numero>::iterator i;
+
+	cout << "Numeros primos hasta el " << N << endl;
+	for (i = numeros.begin(); i != numeros.end(); i++) {
+	 	Numero n = *i;
+	 	if(n.getPrimo())
+	 		cout << n.getNum() << " ";
+	}
+	return 0;
+}

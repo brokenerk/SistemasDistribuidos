@@ -1,0 +1,15 @@
+run: pc_lab.cpp PCLab.o SocketDatagrama.o PaqueteDatagrama.o
+	g++ pc_lab.cpp PCLab.o SocketDatagrama.o PaqueteDatagrama.o -o pc_lab
+	
+PCLab.o: PCLab.cpp SocketDatagrama.o PaqueteDatagrama.o PCLab.h
+	g++ PCLab.cpp -c 	
+
+
+SocketDatagrama.o: SocketDatagrama.cpp PaqueteDatagrama.o SocketDatagrama.h
+	g++ SocketDatagrama.cpp -c 
+
+PaqueteDatagrama.o: PaqueteDatagrama.cpp PaqueteDatagrama.h
+	g++ PaqueteDatagrama.cpp -c
+	
+clean:
+	rm -r *.o

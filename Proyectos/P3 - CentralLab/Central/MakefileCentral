@@ -1,0 +1,17 @@
+run: pc_central.cpp Central.o SocketDatagrama.o PaqueteDatagrama.o ServidorWeb.o
+	g++ -std=c++11 pc_central.cpp mongoose.c ServidorWeb.o Central.o SocketDatagrama.o PaqueteDatagrama.o -w -o pc_central  -lpthread
+
+Central.o: Central.cpp SocketDatagrama.o PaqueteDatagrama.o Central.h
+	g++ Central.cpp -c 	
+
+SocketDatagrama.o: SocketDatagrama.cpp PaqueteDatagrama.o SocketDatagrama.h
+	g++ SocketDatagrama.cpp -c 
+
+PaqueteDatagrama.o: PaqueteDatagrama.cpp PaqueteDatagrama.h
+	g++ PaqueteDatagrama.cpp -w -c
+
+ServidorWeb.o: ServidorWeb.cpp ServidorWeb.h
+	g++ ServidorWeb.cpp -c 	
+
+clean:
+	rm -r *.o

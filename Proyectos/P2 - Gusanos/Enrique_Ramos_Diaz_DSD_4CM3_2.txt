@@ -1,0 +1,610 @@
+//Libreria GFX - Interfaz (gfx.h)
+/* 
+A simple graphics library for CSE 20211 by Douglas Thain
+For course assignments, you should not change this file.
+For complete documentation, see:
+http://www.nd.edu/~dthain/courses/cse20211/fall2011/gfx
+Version 3, 11/07/2012 - Now much faster at changing colors rapidly.
+Version 2, 9/23/2011 - Fixes a bug that could result in jerky animation.
+*/
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+#ifndef GFX_H
+#define GFX_H
+
+/* Open a new graphics window. */
+void gfx_open(int width, int height, const char *title);
+
+/* Draw a point at (x,y) */
+void gfx_point(int x, int y);
+
+/* Draw a line from (x1,y1) to (x2,y2) */
+void gfx_line(int x1, int y1, int x2, int y2);
+
+/* Change the current drawing color. */
+void gfx_color(int red, int green, int blue);
+
+/* Clear the graphics window to the background color. */
+void gfx_clear();
+
+/* Change the current background color. */
+void gfx_clear_color(int red, int green, int blue);
+
+/* Wait for the user to press a key or mouse button. */
+char gfx_wait();
+
+/* Return the X and Y coordinates of the last event. */
+int gfx_xpos();
+int gfx_ypos();
+
+/* Return the X and Y dimensions of the window. */
+int gfx_xsize();
+int gfx_ysize();
+
+/* Check to see if an event is waiting. */
+int gfx_event_waiting();
+
+/* Flush all previous output to the window. */
+void gfx_flush();
+
+#endif
+
+#if defined(__cplusplus)
+}
+#endif
+
+---------------------------------------------------------------------------------------------------------------------------------------
+//Libreria GFX - Implementacion (gfx.c)
+/*
+A simple graphics library for CSE 20211 by Douglas Thain
+For complete documentation, see:
+http://www.nd.edu/~dthain/courses/cse20211/fall2011/gfx
+Version 3, 11/07/2012 - Now much faster at changing colors rapidly.
+Version 2, 9/23/2011 - Fixes a bug that could result in jerky animation.
+*/
+#include <X11/Xlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "gfx.h"
+
+/*
+gfx_open creates several X11 objects, and stores them in globals
+for use by the other functions in the library.
+*/
+static Display *gfx_display=0;
+static Window gfx_window;
+static GC gfx_gc;
+static Colormap gfx_colormap;
+static int gfx_fast_color_mode = 0;
+
+/* These values are saved by gfx_wait then retrieved later by gfx_xpos and gfx_ypos. */
+static int saved_xpos = 0;
+static int saved_ypos = 0;
+
+/* Open a new graphics window. */
+void gfx_open(int width, int height, const char *title) {	
+	XInitThreads();
+	gfx_display = XOpenDisplay(0);
+	if(!gfx_display) {
+		fprintf(stderr, "gfx_open: unable to open the graphics window.\n");
+		exit(1);
+	}
+
+	Visual *visual = DefaultVisual(gfx_display,0);
+	if(visual && visual->class == TrueColor) {
+		gfx_fast_color_mode = 1;
+	} else {
+		gfx_fast_color_mode = 0;
+	}
+
+	int blackColor = BlackPixel(gfx_display, DefaultScreen(gfx_display));
+	int whiteColor = WhitePixel(gfx_display, DefaultScreen(gfx_display));
+
+	gfx_window = XCreateSimpleWindow(gfx_display, DefaultRootWindow(gfx_display), 0, 0, width, height, 0, blackColor, blackColor);
+
+	XSetWindowAttributes attr;
+	attr.backing_store = Always;
+
+	XChangeWindowAttributes(gfx_display, gfx_window, CWBackingStore, &attr);
+
+	XStoreName(gfx_display, gfx_window, title);
+
+	XSelectInput(gfx_display, gfx_window, StructureNotifyMask|KeyPressMask|ButtonPressMask);
+
+	XMapWindow(gfx_display, gfx_window);
+
+	gfx_gc = XCreateGC(gfx_display, gfx_window, 0, 0);
+
+	gfx_colormap = DefaultColormap(gfx_display, 0);
+
+	XSetForeground(gfx_display, gfx_gc, whiteColor);
+
+	// Wait for the MapNotify event
+	for(;;) {
+		XEvent e;
+		XNextEvent(gfx_display, &e);
+		if (e.type == MapNotify)
+			break;
+	}
+}
+
+/* Draw a single point at (x,y) */
+void gfx_point(int x, int y) {
+	XDrawPoint(gfx_display, gfx_window, gfx_gc, x, y);
+}
+
+/* Draw a line from (x1,y1) to (x2,y2) */
+void gfx_line(int x1, int y1, int x2, int y2) {
+	XDrawLine(gfx_display, gfx_window, gfx_gc, x1, y1, x2, y2);
+}
+
+/* Change the current drawing color. */
+void gfx_color(int r, int g, int b) {
+	XColor color;
+
+	if(gfx_fast_color_mode) {
+		/* If this is a truecolor display, we can just pick the color directly. */
+		color.pixel = ((b&0xff) | ((g&0xff)<<8) | ((r&0xff)<<16) );
+	} else {
+		/* Otherwise, we have to allocate it from the colormap of the display. */
+		color.pixel = 0;
+		color.red = r<<8;
+		color.green = g<<8;
+		color.blue = b<<8;
+		XAllocColor(gfx_display, gfx_colormap, &color);
+	}
+	XSetForeground(gfx_display, gfx_gc, color.pixel);
+}
+
+/* Clear the graphics window to the background color. */
+void gfx_clear() {
+	XClearWindow(gfx_display, gfx_window);
+}
+
+/* Change the current background color. */
+void gfx_clear_color(int r, int g, int b) {
+	XColor color;
+	color.pixel = 0;
+	color.red = r<<8;
+	color.green = g<<8;
+	color.blue = b<<8;
+	XAllocColor(gfx_display, gfx_colormap, &color);
+
+	XSetWindowAttributes attr;
+	attr.background_pixel = color.pixel;
+	XChangeWindowAttributes(gfx_display, gfx_window, CWBackPixel, &attr);
+}
+
+int gfx_event_waiting() {
+       XEvent event;
+
+       gfx_flush();
+
+       while (1) {
+               if(XCheckMaskEvent(gfx_display, -1, &event)) {
+                       if(event.type == KeyPress) {
+                               XPutBackEvent(gfx_display, &event);
+                               return 1;
+                       } else if (event.type == ButtonPress) {
+                               XPutBackEvent(gfx_display, &event);
+                               return 1;
+                       } else {
+                               return 0;
+                       }
+               } else {
+                       return 0;
+               }
+       }
+}
+
+/* Wait for the user to press a key or mouse button. */
+char gfx_wait() {
+	XEvent event;
+
+	gfx_flush();
+
+	while(1) {
+		XNextEvent(gfx_display, &event);
+
+		if(event.type == KeyPress) {
+			saved_xpos = event.xkey.x;
+			saved_ypos = event.xkey.y;
+			return XLookupKeysym(&event.xkey, 0);
+		} else if(event.type == ButtonPress) {
+			saved_xpos = event.xkey.x;
+			saved_ypos = event.xkey.y;
+			return event.xbutton.button;
+		}
+	}
+}
+
+/* Return the X and Y coordinates of the last event. */
+int gfx_xpos() {
+	return saved_xpos;
+}
+
+int gfx_ypos() {
+	return saved_ypos;
+}
+
+/* Flush all previous output to the window. */
+void gfx_flush() {
+	XFlush(gfx_display);
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------
+//Clase Movimiento - Interfaz (Movimiento.h)
+#ifndef MOVIMIENTO_H_
+#define MOVIMIENTO_H_
+#include "gfx.h"
+#include <cmath>
+#include <unistd.h>
+
+class Movimiento {
+	private:
+		double longitud;
+		double posv;
+		double posh;
+		double amp;
+		double periodo;
+		double radio;
+		double velocidad;
+	public:
+		Movimiento();
+		void inicializar(double, double, double, double, double, double);
+		void linealVertical(double);
+		void linealHorizontal(double);
+		void linealDiagonal(double);
+		void serpenteanteVertical(double);
+		void serpenteanteHorizontal(double);
+		void circularInf(double);
+		void circularSup(double);
+};
+#endif
+
+---------------------------------------------------------------------------------------------------------------------------------------
+//Clase Movimiento - Implementación (Movimiento.cpp)
+#include "Movimiento.h"
+#include <iostream>
+using namespace std;
+const float PI = 3.1459265;
+
+Movimiento::Movimiento() { }
+
+void Movimiento::inicializar(double l, double a, double p, double pv, double ph, double r) {
+	longitud = l;
+	amp = a;
+	periodo = p;
+	posv = pv;
+	posh = ph;
+	radio = r;
+	velocidad = 9666;
+}
+
+void Movimiento::linealVertical(double x) {
+	velocidad = 4666 + (double) rand() / RAND_MAX * 10666;
+
+	gfx_color(255, 255, 255);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		gfx_point(posv, t + x);
+	}
+
+	gfx_flush();
+	usleep(velocidad);	
+
+	/*Dibujamos otro "gusano" detras del original, del mismo color del fondo de la pantalla
+	para disimular el limpiado de esta, sin borrar al resto de los gusanos al unir los hilos*/
+	gfx_color(0, 0, 0);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		gfx_point(posv, t + x);
+	}
+
+	gfx_flush();
+}
+
+void Movimiento::linealHorizontal(double x) {
+	velocidad = 4666 + (double) rand() / RAND_MAX * 10666;
+
+	gfx_color(255, 255, 255);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		gfx_point(t + x, posh);
+	}
+
+	gfx_flush();
+	usleep(velocidad);	
+
+	gfx_color(0, 0, 0);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		gfx_point(t + x, posh);
+	}
+
+	gfx_flush();
+}
+
+void Movimiento::linealDiagonal(double x) {
+	gfx_color(255, 255, 255);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		gfx_point(t + x, t + x);
+	}
+
+	gfx_flush();
+	usleep(velocidad + x);
+
+	gfx_color(0, 0, 0);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		gfx_point(t + x, t + x);
+	}
+
+	gfx_flush();
+}
+
+void Movimiento::circularInf(double x) {
+	gfx_color(255, 255, 255);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		if(t + x > posv + radio)
+			break;
+		gfx_point(- t - x + posv * 2.0, posh + sqrt(pow(radio, 2) - pow(- t - x + posv, 2)));
+	}
+
+	gfx_flush();
+	usleep(velocidad + 5000);
+
+	gfx_color(0, 0, 0);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		if(t + x > posv + radio)
+			break;
+		gfx_point(- t - x + posv * 2.0, posh + sqrt(pow(radio, 2) - pow(- t - x + posv, 2)));
+	}
+
+	gfx_flush();
+}
+
+void Movimiento::circularSup(double x) {
+	gfx_color(255, 255, 255);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		if(t + x > posv + radio)
+			break;
+		gfx_point(- t - x + posv * 2.0, posh - sqrt(pow(radio, 2) - pow(- t - x + posv, 2)));
+	}
+
+	gfx_flush();
+	usleep(velocidad + 5000);
+
+	gfx_color(0, 0, 0);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		if(t + x > posv + radio)
+			break;
+		gfx_point(- t - x + posv * 2.0, posh - sqrt(pow(radio, 2) - pow(- t - x + posv, 2)));
+	}
+
+	gfx_flush();
+}
+
+void Movimiento::serpenteanteHorizontal(double x) {
+	velocidad = 4666 + (double) rand() / RAND_MAX * 10666;
+
+	gfx_color(255, 255, 255);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		gfx_point(t + x, posh + (amp * cos((t + x) * PI / periodo)));
+	}
+
+	gfx_flush();
+	usleep(velocidad);	
+
+	gfx_color(0, 0, 0);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		gfx_point(t + x, posh + (amp * cos((t + x) * PI / periodo)));
+	}
+
+	gfx_flush();
+}
+
+void Movimiento::serpenteanteVertical(double x) {
+	velocidad = 4666 + (double) rand() / RAND_MAX * 10666;
+
+	gfx_color(255, 255, 255);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		gfx_point(posv + (amp * sin((t + x) * PI / periodo)), t + x);
+	}
+
+	gfx_flush();
+	usleep(velocidad);	
+
+	gfx_color(0, 0, 0);
+	for(double t = 0.0; t < longitud; t++) { //Longitud
+		gfx_point(posv + (amp * sin((t + x) * PI / periodo)), t + x);
+	}
+
+	gfx_flush();
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------
+//Clase Gusano - Interfaz (Gusano.h)
+#ifndef GUSANO_H_
+#define GUSANO_H_
+#include "Movimiento.h"
+#include <cstdlib>
+
+class Gusano {
+	private:
+		double longitud;
+		int direccion; // 0 = Derecha/Abajo, 1 = Izquierda/Arriba
+		int tipoMov;
+		Movimiento mov;
+	public:
+		Gusano(double = 0.0);
+		void moverse(int, int);
+};
+#endif
+
+---------------------------------------------------------------------------------------------------------------------------------------
+//Clase Gusano - Implementacion (Gusano.cpp)
+#include "Gusano.h"
+#include <iostream>
+using namespace std;
+
+Gusano::Gusano(double l) { 
+	tipoMov = rand() % 7;
+	direccion = rand() % 2;
+	longitud = l;
+}
+
+void Gusano::moverse(int w, int h) {
+	double amp = 2.0 + (double) rand() / RAND_MAX * 4.0;
+	double periodo = 10.0 + (double) rand() / RAND_MAX * 10.0;
+	double posv = 30.0 + (double) rand() / RAND_MAX * (w - 60.0);
+	double posh = 30.0 + (double) rand() / RAND_MAX * (h - 60.0);
+	double radio = 35.0 + (double) rand() / RAND_MAX * 25.0;
+
+	mov.inicializar(longitud, amp, periodo, posv, posh, radio);
+
+	//Recorremos toda la pantalla
+	while(1) {
+		switch(tipoMov) {
+			case 0: {
+				if(direccion == 0) {
+					for(double x = 0.0; x < h - 30.0; x++)
+						mov.linealVertical(x);
+				}
+				else {
+					for(double x = h - 30.0; x > 0.0; x--)
+						mov.linealVertical(x);
+				}
+				break;
+			}
+			case 1: {
+				if(direccion == 0) {
+					for(double x = 0.0; x < w - 30.0; x++)
+						mov.linealHorizontal(x);
+				}
+				else {
+					for(double x = w - 30.0; x > 0.0; x--)
+						mov.linealHorizontal(x);
+				}
+				break;
+			}
+			case 2: {
+				if(direccion == 0) {
+					for(double x = 0.0; x < sqrt(pow(w, 2) + pow(h, 2)) - 270.0; x++)
+						mov.linealDiagonal(x);
+				}
+				else {
+					for(double x = sqrt(pow(w, 2) + pow(h, 2)) - 270.0; x > 0.0; x--)
+						mov.linealDiagonal(x);
+				}
+				break;
+			}
+			case 3: {
+				if(direccion == 0) {
+					for(double x = 0.0; x < h - 30.0; x++)
+						mov.serpenteanteVertical(x);
+				}
+				else {
+					for(double x = h - 30.0; x > 0.0; x--)
+						mov.serpenteanteVertical(x);
+				}
+				break;
+			}
+			case 4: {
+				if(direccion == 0) {
+					for(double x = 0.0; x < w - 30.0; x++)
+						mov.serpenteanteHorizontal(x);
+				}
+				else {
+					for(double x = w - 30.0; x > 0.0; x--)
+						mov.serpenteanteHorizontal(x);
+				}
+				break;
+			}
+			case 5: {
+				if(direccion == 0) {
+					for(double x = posv - radio; x < posv + radio; x++)
+						mov.circularInf(x);
+				}
+				else {
+					for(double x = posv + radio; x > posv - radio; x--)
+						mov.circularInf(x);
+				}
+				break;
+			}
+			case 6: {
+				if(direccion == 0) {
+					for(double x = posv - radio; x < posv + radio; x++)
+						mov.circularSup(x);
+				}
+				else {
+					for(double x = posv + radio; x > posv - radio; x--)
+						mov.circularSup(x);
+				}
+				break;
+			}
+		}
+		/*Cambiamos la direccion cuando se llegue al final o borde
+		de la pantalla, generando un efecto de rebote*/
+		if(direccion == 0)
+			direccion = 1;
+		else
+			direccion = 0;
+	}
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------
+//Programa principal (main.cpp)
+#include "Gusano.h"
+#include <thread>
+#include <vector>
+#include <ctime>
+#include <atomic>
+#include <iostream>
+using namespace std;
+int width = 600.0;
+int height = 600.0;
+
+void iniciarHilo(atomic<double> &lon) {
+	Gusano g(lon);
+	g.moverse(width, height);
+}
+
+int main(int argc, char* argv[]) {
+	if(argc != 2) {
+		cout << "Error. Forma de ejecucion: " << argv[0] << " num_gusanos" << endl;
+		exit(0);
+	}
+	srand(time(NULL));
+	gfx_open(width, height, "Animacion Gusanos");
+
+	int n = atoi(argv[1]);
+	//Vector de n hilos para n gusanos
+	vector<thread> hilos;
+	hilos.reserve(n);
+	//Atomic para enviar parametros a funcion del hilo
+	atomic<double> longitud(25.0 + (double) rand() / RAND_MAX * 10.0);
+	
+	for(int i = 0; i < n; i++) {
+		hilos.push_back(thread(iniciarHilo, ref(longitud)));
+	}
+
+	//Join de los hilos del vector
+	for(int i = 0; i < hilos.size(); i++) {
+		hilos.at(i).join();
+	}
+	
+	return 0;
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------
+//Makefile
+run: main.cpp gfx.o Gusano.o Movimiento.o
+	g++ -std=c++11 main.cpp gfx.o Gusano.o Movimiento.o -o main -lX11 -lpthread
+
+Gusanos.o: Gusano.cpp Gusano.h Movimiento.o
+	g++ Gusano.cpp -c
+
+Movimiento.o: Movimiento.cpp Movimiento.h gfx.o
+	g++ Movimiento.cpp -c
+
+gfx.o: gfx.c gfx.h
+	gcc gfx.c -c
