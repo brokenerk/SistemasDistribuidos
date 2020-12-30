@@ -22,54 +22,56 @@
 			footer{
 			  margin-top:auto; 
 			}
-
-			.card-block{
-		        width: 50%;
-		        padding-left: 20px;
-		        padding-bottom: 30px;
-		    }
-
-		    img{
-		        height: 370px;
-		    }
 		</style>
 		<script>
+			var segs = 5000;
 			$(document).ready(function() {
-				var segs = 5000;
-				
-				function loadImages() {
-					setTimeout(loadImages, segs);
-
-			 		$.ajax({
-						url: '/updateImg',
-						dataType: 'json',
-						success: function(json) {
-							var ip = json.ip;
-							var ult = json.ult;
-							segs = json.segs * 1000;
-							var cont = 0;
-
-							$(".card-group").remove();
-							$("#contenedor").append("<div class='card-group'></div>");
-
-							var card = 	"<div class='card-block'>" +
-										 "<img class='card-img-top' src='./www/" + ip + aux + ".jpg' onerror=\"this.src='https://isilionangel.files.wordpress.com/2012/06/no_signal_found_by_epicfail23-d2zseqv.jpg'\"/>" +
-										 "<div class='card-footer'><h4>IP: " + ip + aux + "</h4></div></div>";
-
-							var d = new Date().getTime();
-							while(cont < 30) {
-								var aux = ult + cont;
-								var card = 	"<div class='card-block'>" +
-										 	"<img class='card-img-top' src='./www/" + ip + aux + ".jpg?" + d + "' onerror=\"this.src='https://isilionangel.files.wordpress.com/2012/06/no_signal_found_by_epicfail23-d2zseqv.jpg'\"/><div class='card-footer'><h4>IP: " + ip + aux + "</h4></div></div>";
-								$(".card-group").append(card);
-								cont++;
-							}
-							
-						}
-					});
-				}
 				loadImages();
 			});
+
+			function loadImages() {
+				setTimeout(loadImages, segs);
+
+		 		$.ajax({
+					url: '/updateImg',
+					dataType: 'json',
+					success: function(json) {
+						var ip = json.ip;
+						var ult = json.ult;
+						segs = json.segs * 1000;
+						var cont = 0;
+						var n_row = 0;
+
+						$("#capturas-cards").html("");
+						$("#capturas-cards").append("<div id='row" + n_row + "' class='card-deck'></div><br/>");
+
+						var card = 	"<div class='card'>" +
+									"<img class='card-img-top' src='./www/" + ip + aux + ".jpg' onerror='onImgError(this);'/>" +
+									"<div class='card-footer'><h4>IP: " + ip + aux + "</h4></div></div>";
+
+						var d = new Date().getTime();
+						while(cont < 30) {
+							var aux = ult + cont;
+							var card =	"<div class='card'>" +
+									 	"<img class='card-img-top' src='./www/" + ip + aux + ".jpg?" + d + "' onerror='onImgError(this);'/><div class='card-footer'><h4>IP: " + ip + aux + "</h4></div></div>";
+							$("#row" + n_row).append(card);
+
+							if ((cont + 1) % 2 == 0) {
+								n_row++;
+								$("#capturas-cards").append("<div id='row" + n_row + "' class='card-deck'></div></br>");
+							}
+							cont++;
+						}	
+					}
+				});
+			}
+
+			function onImgError(source){
+				console.log("ERROR");
+				source.src = "./www/NO_SIGNAL.jpg";
+				source.onerror = ""; 
+				return true; 
+			}
 		</script>
 	</head>
 
@@ -81,6 +83,7 @@
 		</nav>
 		<div id="contenedor" class="container-fluid">
 			<br><br><br><h4>Capturas de pantalla de computadoras activas</h4><br>
+			<div id="capturas-cards"></div>
     	</div>
     	<br>
 		<footer class="py-5 bg-primary">
